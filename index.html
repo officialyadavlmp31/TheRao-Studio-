@@ -1,75 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TheRao Studio Pro</title>
+  <title>RAO STUDIO - Premium Browser Photo Studio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 500: '#ec4899', 600: '#db2777' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-pink-500 selection:text-white">
 
-  <header class="bg-slate-800/90 border-b border-slate-700 px-4 py-3 sticky top-0 z-50 backdrop-blur-md">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-4 py-3.5">
     <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center text-white shadow-lg">
-          <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
-        </div>
-        <div>
-          <h1 class="text-lg font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Photo Studio Pro</h1>
-          <p class="text-[10px] text-slate-400">Free HD Photo Editor</p>
-        </div>
+      <div class="flex items-center gap-2">
+        <h1 class="text-xl font-black tracking-wider bg-gradient-to-r from-white via-slate-200 to-pink-500 bg-clip-text text-transparent">
+          RAO <span class="text-pink-500">STUDIO</span>
+        </h1>
       </div>
-      <button onclick="resetFilters()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 px-3 py-1.5 rounded-lg transition">
-        <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+      <button onclick="scrollToEditor()" class="text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white px-4 py-2 rounded-xl shadow-lg shadow-pink-500/20 transition-all">
+        Start Editing
       </button>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto p-4 w-full flex-1 flex flex-col md:flex-row gap-6">
-    <div class="flex-1 bg-slate-950 rounded-2xl border border-slate-800 p-4 flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden shadow-inner">
-      <div id="uploadPlaceholder" class="text-center space-y-3">
-        <div class="w-16 h-16 rounded-full bg-slate-800/80 flex items-center justify-center mx-auto text-indigo-400 text-2xl">
-          <i class="fa-solid fa-image"></i>
-        </div>
-        <p class="text-sm text-slate-400">Apni photo chuno aur edit karna shuru karo</p>
-        <button onclick="document.getElementById('imageInput').click()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2.5 rounded-xl text-xs transition shadow-lg shadow-indigo-600/30">Upload Photo</button>
-      </div>
-      <img id="imagePreview" class="hidden max-h-[450px] w-auto object-contain rounded-lg transition-all duration-75">
-      <input type="file" id="imageInput" accept="image/*" class="hidden">
+  <!-- Hero Section -->
+  <section class="max-w-4xl mx-auto px-4 py-10 text-center space-y-4">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-pink-400 text-xs font-medium">
+      <i class="fa-solid fa-wand-magic-sparkles"></i> PREMIUM BROWSER PHOTO STUDIO
     </div>
+    <h2 class="text-4xl md:text-6xl font-black tracking-tight leading-none bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent">
+      Turn your photos into visual stories.
+    </h2>
+    <p class="text-sm md:text-base text-slate-400 max-w-2xl mx-auto">
+      Edit photos directly in your browser with filters, brightness, contrast, saturation, blur, rotation, flip, and one-tap high quality download.
+    </p>
+    <div class="flex flex-wrap justify-center gap-3 pt-2">
+      <button onclick="scrollToEditor()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium px-6 py-3 rounded-xl text-sm shadow-xl shadow-pink-500/25 transition">
+        Open Studio
+      </button>
+    </div>
+  </section>
 
-    <div class="w-full md:w-80 bg-slate-800/80 rounded-2xl border border-slate-700 p-4 space-y-5">
-      <h2 class="text-sm font-bold text-slate-300 border-b border-slate-700/60 pb-2">
-        <span><i class="fa-solid fa-sliders mr-2 text-indigo-400"></i> Adjustments</span>
-      </h2>
+  <!-- Main Editor Workspace -->
+  <main id="editorSection" class="max-w-4xl mx-auto p-4 w-full space-y-6 pb-20">
+    
+    <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-6">
+      <div class="text-xs uppercase tracking-widest text-pink-400 font-bold">Premium Photo Studio</div>
+      <p class="text-xs text-slate-400 -mt-4">Choose a photo and try every control. Changes are applied live to the canvas.</p>
 
-      <div class="space-y-1">
-        <div class="flex justify-between text-xs text-slate-400"><span>Brightness</span><span id="valBrightness">100%</span></div>
-        <input type="range" id="brightness" min="0" max="200" value="100" class="w-full accent-indigo-500 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+      <!-- Preview Box -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 flex flex-col items-center justify-center min-h-[350px] relative overflow-hidden">
+        <div id="uploadPlaceholder" class="text-center space-y-3 py-10">
+          <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto text-pink-500 text-2xl shadow-inner">
+            <i class="fa-solid fa-image"></i>
+          </div>
+          <p class="text-sm text-slate-300 font-medium">Your photo will appear here</p>
+          <p class="text-xs text-slate-500">Select a photo below or use one of the demo photos.</p>
+        </div>
+        <img id="imagePreview" class="hidden max-h-[500px] w-auto object-contain rounded-xl shadow-lg transition-all duration-75">
+        <input type="file" id="imageInput" accept="image/*" class="hidden">
       </div>
 
-      <div class="space-y-1">
-        <div class="flex justify-between text-xs text-slate-400"><span>Contrast</span><span id="valContrast">100%</span></div>
-        <input type="range" id="contrast" min="0" max="200" value="100" class="w-full accent-indigo-500 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer">
-      </div>
-
-      <div class="space-y-1">
-        <div class="flex justify-between text-xs text-slate-400"><span>Saturation</span><span id="valSaturate">100%</span></div>
-        <input type="range" id="saturate" min="0" max="200" value="100" class="w-full accent-indigo-500 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer">
-      </div>
-
-      <div class="space-y-1">
-        <div class="flex justify-between text-xs text-slate-400"><span>Blur</span><span id="valBlur">0px</span></div>
-        <input type="range" id="blur" min="0" max="20" value="0" class="w-full accent-indigo-500 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer">
-      </div>
-
-      <div class="pt-3 border-t border-slate-700/60">
-        <button id="downloadBtn" onclick="downloadImage()" disabled class="w-full bg-slate-700 text-slate-500 font-medium py-3 rounded-xl text-xs flex items-center justify-center gap-2 cursor-not-allowed">
-          <i class="fa-solid fa-download"></i> Download HD Image
+      <!-- Quick Actions -->
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <button onclick="document.getElementById('imageInput').click()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium px-5 py-2.5 rounded-xl text-xs shadow-lg shadow-pink-600/20 flex items-center gap-2">
+          <i class="fa-solid fa-camera"></i> Upload Photo
+        </button>
+        <button onclick="loadDemo(1)" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-700 transition">Demo 1</button>
+        <button onclick="loadDemo(2)" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-700 transition">Demo 2</button>
+        <button id="downloadBtn" onclick="downloadImage()" disabled class="bg-slate-800 text-slate-500 font-medium px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 cursor-not-allowed transition">
+          <i class="fa-solid fa-download"></i> Download
+        </button>
+        <button onclick="resetAll()" class="bg-slate-800 hover:bg-slate-700 text-rose-400 font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-700 transition flex items-center gap-1">
+          <i class="fa-solid fa-rotate-left"></i> Reset
         </button>
       </div>
     </div>
+
+    <!-- Controls Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Adjustments -->
+      <div class="glass-card rounded-3xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">Adjustments</h3>
+        
+        <div class="space-y-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Brightness</span><span id="valBrightness">100</span></div>
+          <input type="range" id="brightness" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Contrast</span><span id="valContrast">100</span></div>
+          <input type="range" id="contrast" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Saturation</span><span id="valSaturate">100</span></div>
+          <input type="range" id="saturate" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Blur</span><span id="valBlur">0</span></div>
+          <input type="range" id="blur" min="0" max="20" value="0" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+        </div>
+      </div>
+
+      <!-- Transform & Filters -->
+      <div class="glass-card rounded-3xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">Transform & Pro Filters</h3>
+        
+        <div class="grid grid-cols-3 gap-2">
+          <button onclick="rotateImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-medium text-slate-300 border border-slate-700 transition">Rotate 90°</button>
+          <button onclick="flipH()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-medium text-slate-300 border border-slate-700 transition">Flip H</button>
+          <button onclick="flipV()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-medium text-slate-300 border border-slate-700 transition">Flip V</button>
+        </div>
+
+        <div class="space-y-2 pt-2">
+          <span class="text-xs text-slate-400 font-medium">Filters</span>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="applyFilter('vivid')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs font-bold text-pink-400 border border-slate-700">Vivid Filter</button>
+            <button onclick="applyFilter('cinema')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs font-bold text-purple-400 border border-slate-700">Cinema Filter</button>
+            <button onclick="applyFilter('bw')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs font-bold text-slate-300 border border-slate-700">B & W</button>
+            <button onclick="applyFilter('normal')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs font-bold text-slate-400 border border-slate-700">Normal</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </main>
 
   <script>
@@ -83,253 +160,67 @@
     const saturate = document.getElementById('saturate');
     const blur = document.getElementById('blur');
 
-    let originalImage = null;
+    let originalImage = new Image();
+    let rotation = 0;
+    let flipHVal = 1;
+    let flipVVal = 1;
+
+    function scrollToEditor() {
+      document.getElementById('editorSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Demo Photos
+    function loadDemo(type) {
+      originalImage.src = type === 1 
+        ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop'
+        : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop';
+      
+      originalImage.onload = () => {
+        imagePreview.src = originalImage.src;
+        imagePreview.classList.remove('hidden');
+        uploadPlaceholder.classList.add('hidden');
+        enableDownload();
+        resetAllValues();
+      };
+    }
 
     imageInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (event) => {
-          imagePreview.src = event.target.result;
-          originalImage = new Image();
           originalImage.src = event.target.result;
-          imagePreview.classList.remove('hidden');
-          uploadPlaceholder.classList.add('hidden');
-          downloadBtn.disabled = false;
-          downloadBtn.className = "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl text-xs transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer";
+          originalImage.onload = () => {
+            imagePreview.src = originalImage.src;
+            imagePreview.classList.remove('hidden');
+            uploadPlaceholder.classList.add('hidden');
+            enableDownload();
+            resetAllValues();
+          };
         };
         reader.readAsDataURL(file);
       }
     });
 
+    function enableDownload() {
+      downloadBtn.disabled = false;
+      downloadBtn.className = "bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-medium px-5 py-2.5 rounded-xl text-xs shadow-lg shadow-pink-600/25 flex items-center gap-2 cursor-pointer transition";
+    }
+
     function applyFilters() {
+      if (!originalImage.src) return;
       const b = brightness.value;
       const c = contrast.value;
       const s = saturate.value;
       const bl = blur.value;
 
-      document.getElementById('valBrightness').innerText = b + '%';
-      document.getElementById('valContrast').innerText = c + '%';
-      document.getElementById('valSaturate').innerText = s + '%';
-      document.getElementById('valBlur').innerText = bl + 'px';
+      document.getElementById('valBrightness').innerText = b;
+      document.getElementById('valContrast').innerText = c;
+      document.getElementById('valSaturate').innerText = s;
+      document.getElementById('valBlur').innerText = bl;
 
       imagePreview.style.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%) blur(${bl}px)`;
-    }
-
-    [brightness, contrast, saturate, blur].forEach(slider => slider.addEventListener('input', applyFilters));
-
-    function resetFilters() {
-      brightness.value = 100; contrast.value = 100; saturate.value = 100; blur.value = 0;
-      applyFilters();
-    }
-
-    function downloadImage() {
-      if (!originalImage) return;
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = originalImage.width;
-      canvas.height = originalImage.height;
-      const bl = blur.value * (originalImage.width / 800);
-      ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturate.value}%) blur(${bl}px)`;
-      ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
-      const link = document.createElement('a');
-      link.download = 'edited-photo.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>THE RAO STUDIO - Pro Building & Photo Editor</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RAO STUDIO - HD Photo Editor</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    .glass-card {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-  </style>
-</head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
-
-  <!-- Header with Custom Studio Name & Logo -->
-  <header class="sticky top-0 z-50 glass-card border-b border-slate-800 px-4 py-3">
-    <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <!-- Logo Icon -->
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-pink-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-pink-500/20">
-          <i class="fa-solid fa-camera-retro text-xl"></i>
-        </div>
-        <div>
-          <!-- Studio Name -->
-          <h1 class="text-xl font-black tracking-wider bg-gradient-to-r from-white via-slate-200 to-pink-500 bg-clip-text text-transparent">
-            RAO STUDIO
-          </h1>
-          <p class="text-[10px] text-pink-400 font-semibold">Premium HD Photo Editor</p>
-        </div>
-      </div>
-      
-      <button onclick="document.getElementById('imageInput').click()" class="text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white px-4 py-2 rounded-xl shadow-lg transition">
-        <i class="fa-solid fa-plus mr-1"></i> New Photo
-      </button>
-    </div>
-  </header>
-
-  <!-- Main Workspace -->
-  <main class="max-w-4xl mx-auto p-4 w-full flex-1 space-y-6 pb-20">
-
-    <!-- Upload & Preview Area -->
-    <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-4">
-      <div id="uploadPlaceholder" class="border-2 border-dashed border-slate-700 hover:border-pink-500/50 rounded-2xl p-10 text-center space-y-3 cursor-pointer transition" onclick="document.getElementById('imageInput').click()">
-        <div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center mx-auto text-pink-500 text-2xl shadow-inner">
-          <i class="fa-solid fa-cloud-arrow-up"></i>
-        </div>
-        <div>
-          <p class="text-sm font-bold text-slate-200">Apni photo chuno aur edit karna shuru karo</p>
-          <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP files</p>
-        </div>
-      </div>
-
-      <div class="relative overflow-hidden flex items-center justify-center min-h-[300px]">
-        <img id="imagePreview" class="hidden max-h-[480px] w-auto object-contain rounded-xl shadow-2xl transition-all duration-75">
-      </div>
-
-      <input type="file" id="imageInput" accept="image/*" class="hidden">
-
-      <!-- Action Buttons -->
-      <div id="controlsBar" class="hidden flex flex-wrap items-center justify-center gap-3 pt-2 border-t border-slate-800">
-        <button id="downloadBtn" onclick="downloadImage()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-lg shadow-pink-600/30 flex items-center gap-2">
-          <i class="fa-solid fa-download"></i> Download HD
-        </button>
-        <button onclick="resetAll()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-700 transition">
-          <i class="fa-solid fa-rotate-left mr-1"></i> Reset
-        </button>
-      </div>
-    </div>
-
-    <!-- Controls Panels -->
-    <div id="adjustmentsPanel" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-      
-      <!-- Adjustments -->
-      <div class="glass-card rounded-2xl p-4 space-y-3">
-        <h3 class="text-xs font-bold text-slate-300 border-b border-slate-800 pb-2 flex items-center justify-between">
-          <span>Lighting & Colors</span>
-          <i class="fa-solid fa-sliders text-pink-500"></i>
-        </h3>
-        
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Brightness</span><span id="valBrightness">100%</span></div>
-          <input type="range" id="brightness" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-        </div>
-
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Contrast</span><span id="valContrast">100%</span></div>
-          <input type="range" id="contrast" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-        </div>
-
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Saturation</span><span id="valSaturate">100%</span></div>
-          <input type="range" id="saturate" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-        </div>
-
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Blur Effect</span><span id="valBlur">0px</span></div>
-          <input type="range" id="blur" min="0" max="20" value="0" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-        </div>
-      </div>
-
-      <!-- Filters & Transform Effects -->
-      <div class="glass-card rounded-2xl p-4 space-y-3">
-        <h3 class="text-xs font-bold text-slate-300 border-b border-slate-800 pb-2 flex items-center justify-between">
-          <span>Pro Effects & Transform</span>
-          <i class="fa-solid fa-wand-magic-sparkles text-pink-500"></i>
-        </h3>
-        
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="applyFilter('vivid')" class="bg-slate-900 hover:bg-slate-800 p-2.5 rounded-xl text-xs font-bold text-pink-400 border border-slate-800">Vivid Effect</button>
-          <button onclick="applyFilter('cinema')" class="bg-slate-900 hover:bg-slate-800 p-2.5 rounded-xl text-xs font-bold text-purple-400 border border-slate-800">Cinema Look</button>
-          <button onclick="applyFilter('vintage')" class="bg-slate-900 hover:bg-slate-800 p-2.5 rounded-xl text-xs font-bold text-amber-400 border border-slate-800">Vintage Sepia</button>
-          <button onclick="applyFilter('bw')" class="bg-slate-900 hover:bg-slate-800 p-2.5 rounded-xl text-xs font-bold text-slate-300 border border-slate-800">Black & White</button>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 pt-2">
-          <button onclick="rotateImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-medium text-slate-300 border border-slate-700 flex items-center justify-center gap-1">
-            <i class="fa-solid fa-rotate-right"></i> Rotate 90°
-          </button>
-          <button onclick="flipH()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-medium text-slate-300 border border-slate-700 flex items-center justify-center gap-1">
-            <i class="fa-solid fa-arrows-left-right"></i> Flip Side
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-  </main>
-
-  <script>
-    const imageInput = document.getElementById('imageInput');
-    const imagePreview = document.getElementById('imagePreview');
-    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    const controlsBar = document.getElementById('controlsBar');
-    const adjustmentsPanel = document.getElementById('adjustmentsPanel');
-
-    const brightness = document.getElementById('brightness');
-    const contrast = document.getElementById('contrast');
-    const saturate = document.getElementById('saturate');
-    const blur = document.getElementById('blur');
-
-    let originalImage = new Image();
-    let rotation = 0;
-    let flipHVal = 1;
-    let currentSepia = 0;
-
-    imageInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          originalImage.src = event.target.result;
-          originalImage.onload = () => {
-            imagePreview.src = originalImage.src;
-            imagePreview.classList.remove('hidden');
-            uploadPlaceholder.classList.add('hidden');
-            controlsBar.classList.remove('hidden');
-            adjustmentsPanel.classList.remove('hidden');
-            resetAll();
-          };
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    function applyFilters() {
-      if (!originalImage.src) return;
-      const b = brightness.value;
-      const c = contrast.value;
-      const s = saturate.value;
-      const bl = blur.value;
-
-      document.getElementById('valBrightness').innerText = b + '%';
-      document.getElementById('valContrast').innerText = c + '%';
-      document.getElementById('valSaturate').innerText = s + '%';
-      document.getElementById('valBlur').innerText = bl + 'px';
-
-      imagePreview.style.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%) blur(${bl}px) sepia(${currentSepia}%)`;
-      imagePreview.style.transform = `rotate(${rotation}deg) scaleX(${flipHVal})`;
+      imagePreview.style.transform = `rotate(${rotation}deg) scaleX(${flipHVal}) scaleY(${flipVVal})`;
     }
 
     [brightness, contrast, saturate, blur].forEach(slider => slider.addEventListener('input', applyFilters));
@@ -344,25 +235,34 @@
       applyFilters();
     }
 
+    function flipV() {
+      flipVVal *= -1;
+      applyFilters();
+    }
+
     function applyFilter(type) {
-      currentSepia = 0;
       if (type === 'vivid') {
-        brightness.value = 110; contrast.value = 135; saturate.value = 160; blur.value = 0;
+        brightness.value = 110; contrast.value = 130; saturate.value = 150; blur.value = 0;
       } else if (type === 'cinema') {
-        brightness.value = 90; contrast.value = 140; saturate.value = 85; blur.value = 0;
-      } else if (type === 'vintage') {
-        brightness.value = 100; contrast.value = 100; saturate.value = 90; blur.value = 0;
-        currentSepia = 70;
+        brightness.value = 90; contrast.value = 140; saturate.value = 80; blur.value = 0;
       } else if (type === 'bw') {
-        brightness.value = 105; contrast.value = 125; saturate.value = 0; blur.value = 0;
+        brightness.value = 100; contrast.value = 120; saturate.value = 0; blur.value = 0;
+      } else {
+        resetAllValues();
       }
       applyFilters();
     }
 
-    function resetAll() {
+    function resetAllValues() {
       brightness.value = 100; contrast.value = 100; saturate.value = 100; blur.value = 0;
-      rotation = 0; flipHVal = 1; currentSepia = 0;
+      rotation = 0; flipHVal = 1; flipVVal = 1;
       applyFilters();
+    }
+
+    function resetAll() {
+      resetAllValues();
+      imagePreview.style.filter = 'none';
+      imagePreview.style.transform = 'none';
     }
 
     function downloadImage() {
@@ -373,241 +273,7 @@
       canvas.width = originalImage.width;
       canvas.height = originalImage.height;
 
-      ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturate.value}%) blur(${blur.value}px) sepia(${currentSepia}%)`;
-      ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
-
-      const link = document.createElement('a');
-      link.download = 'rao-studio-edited.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }
-  </script>
-</body><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RAO STUDIO - HD Photo Editor</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    .glass-card {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-  </style>
-</head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
-
-  <!-- Header with Custom Studio Name & Logo -->
-  <header class="sticky top-0 z-50 glass-card border-b border-slate-800 px-4 py-3">
-    <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <!-- Logo Icon -->
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-pink-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-pink-500/20">
-          <i class="fa-solid fa-camera-retro text-xl"></i>
-        </div>
-        <div>
-          <!-- Studio Name -->
-          <h1 class="text-xl font-black tracking-wider bg-gradient-to-r from-white via-slate-200 to-pink-500 bg-clip-text text-transparent">
-            RAO STUDIO
-          </h1>
-          <p class="text-[10px] text-pink-400 font-semibold">Premium HD Photo Editor</p>
-        </div>
-      </div>
-      
-      <button onclick="document.getElementById('imageInput').click()" class="text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white px-4 py-2 rounded-xl shadow-lg transition">
-        <i class="fa-solid fa-plus mr-1"></i> New Photo
-      </button>
-    </div>
-  </header>
-
-  <!-- Main Workspace -->
-  <main class="max-w-4xl mx-auto p-4 w-full flex-1 space-y-6 pb-20">
-
-    <!-- Upload & Preview Area -->
-    <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-4">
-      <div id="uploadPlaceholder" class="border-2 border-dashed border-slate-700 hover:border-pink-500/50 rounded-2xl p-10 text-center space-y-3 cursor-pointer transition" onclick="document.getElementById('imageInput').click()">
-        <div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center mx-auto text-pink-500 text-2xl shadow-inner">
-          <i class="fa-solid fa-cloud-arrow-up"></i>
-        </div>
-        <div>
-          <p class="text-sm font-bold text-slate-200">Apni photo chuno aur edit karna shuru karo</p>
-          <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP files</p>
-        </div>
-      </div>
-
-      <div class="relative overflow-hidden flex items-center justify-center min-h-[300px]">
-        <img id="imagePreview" class="hidden max-h-[480px] w-auto object-contain rounded-xl shadow-2xl transition-all duration-75">
-      </div>
-
-      <input type="file" id="imageInput" accept="image/*" class="hidden">
-
-      <!-- Action Buttons -->
-      <div id="controlsBar" class="hidden flex flex-wrap items-center justify-center gap-3 pt-2 border-t border-slate-800">
-        <button id="downloadBtn" onclick="downloadImage()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-lg shadow-pink-600/30 flex items-center gap-2">
-          <i class="fa-solid fa-download"></i> Download HD
-        </button>
-        <button onclick="resetAll()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-700 transition">
-          <i class="fa-solid fa-rotate-left mr-1"></i> Reset
-        </button>
-      </div>
-    </div>
-
-    <!-- Controls Panels -->
-    <div id="adjustmentsPanel" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-      
-      <!-- Adjustments -->
-      <div class="glass-card rounded-2xl p-4 space-y-3">
-        <h3 class="text-xs font-bold text-slate-300 border-b border-slate-800 pb-2 flex items-center justify-between">
-          <span>Lighting & Colors</span>
-          <i class="fa-solid fa-sliders text-pink-500"></i>
-        </h3>
-        
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Brightness</span><span id="valBrightness">100%</span></div>
-          <input type="range" id="brightness" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-        </div>
-
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Contrast</span><span id="valContrast">100%</span></div>
-          <input type="range" id="contrast" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-        </div>
-
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Saturation</span><span id="valSaturate">100%</span></div>
-          <input type="range" id="saturate" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-        </div>
-
-        <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Blur Effect</span><span id="valBlur">0px</span></div>
-          <input type="range" id="blur" min="0" max="20" value="0" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-        </div>
-      </div>
-
-      <!-- Filters & Transform Effects -->
-      <div class="glass-card rounded-2xl p-4 space-y-3">
-        <h3 class="text-xs font-bold text-slate-300 border-b border-slate-800 pb-2 flex items-center justify-between">
-          <span>Pro Effects & Transform</span>
-          <i class="fa-solid fa-wand-magic-sparkles text-pink-500"></i>
-        </h3>
-        
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="applyFilter('vivid')" class="bg-slate-900 hover:bg-slate-800 p-2.5 rounded-xl text-xs font-bold text-pink-400 border border-slate-800">Vivid Effect</button>
-          <button onclick="applyFilter('cinema')" class="bg-slate-900 hover:bg-slate-800 p-2.5 rounded-xl text-xs font-bold text-purple-400 border border-slate-800">Cinema Look</button>
-          <button onclick="applyFilter('vintage')" class="bg-slate-900 hover:bg-slate-800 p-2.5 rounded-xl text-xs font-bold text-amber-400 border border-slate-800">Vintage Sepia</button>
-          <button onclick="applyFilter('bw')" class="bg-slate-900 hover:bg-slate-800 p-2.5 rounded-xl text-xs font-bold text-slate-300 border border-slate-800">Black & White</button>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 pt-2">
-          <button onclick="rotateImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-medium text-slate-300 border border-slate-700 flex items-center justify-center gap-1">
-            <i class="fa-solid fa-rotate-right"></i> Rotate 90°
-          </button>
-          <button onclick="flipH()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-medium text-slate-300 border border-slate-700 flex items-center justify-center gap-1">
-            <i class="fa-solid fa-arrows-left-right"></i> Flip Side
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-  </main>
-
-  <script>
-    const imageInput = document.getElementById('imageInput');
-    const imagePreview = document.getElementById('imagePreview');
-    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    const controlsBar = document.getElementById('controlsBar');
-    const adjustmentsPanel = document.getElementById('adjustmentsPanel');
-
-    const brightness = document.getElementById('brightness');
-    const contrast = document.getElementById('contrast');
-    const saturate = document.getElementById('saturate');
-    const blur = document.getElementById('blur');
-
-    let originalImage = new Image();
-    let rotation = 0;
-    let flipHVal = 1;
-    let currentSepia = 0;
-
-    imageInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          originalImage.src = event.target.result;
-          originalImage.onload = () => {
-            imagePreview.src = originalImage.src;
-            imagePreview.classList.remove('hidden');
-            uploadPlaceholder.classList.add('hidden');
-            controlsBar.classList.remove('hidden');
-            adjustmentsPanel.classList.remove('hidden');
-            resetAll();
-          };
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    function applyFilters() {
-      if (!originalImage.src) return;
-      const b = brightness.value;
-      const c = contrast.value;
-      const s = saturate.value;
-      const bl = blur.value;
-
-      document.getElementById('valBrightness').innerText = b + '%';
-      document.getElementById('valContrast').innerText = c + '%';
-      document.getElementById('valSaturate').innerText = s + '%';
-      document.getElementById('valBlur').innerText = bl + 'px';
-
-      imagePreview.style.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%) blur(${bl}px) sepia(${currentSepia}%)`;
-      imagePreview.style.transform = `rotate(${rotation}deg) scaleX(${flipHVal})`;
-    }
-
-    [brightness, contrast, saturate, blur].forEach(slider => slider.addEventListener('input', applyFilters));
-
-    function rotateImage() {
-      rotation = (rotation + 90) % 360;
-      applyFilters();
-    }
-
-    function flipH() {
-      flipHVal *= -1;
-      applyFilters();
-    }
-
-    function applyFilter(type) {
-      currentSepia = 0;
-      if (type === 'vivid') {
-        brightness.value = 110; contrast.value = 135; saturate.value = 160; blur.value = 0;
-      } else if (type === 'cinema') {
-        brightness.value = 90; contrast.value = 140; saturate.value = 85; blur.value = 0;
-      } else if (type === 'vintage') {
-        brightness.value = 100; contrast.value = 100; saturate.value = 90; blur.value = 0;
-        currentSepia = 70;
-      } else if (type === 'bw') {
-        brightness.value = 105; contrast.value = 125; saturate.value = 0; blur.value = 0;
-      }
-      applyFilters();
-    }
-
-    function resetAll() {
-      brightness.value = 100; contrast.value = 100; saturate.value = 100; blur.value = 0;
-      rotation = 0; flipHVal = 1; currentSepia = 0;
-      applyFilters();
-    }
-
-    function downloadImage() {
-      if (!originalImage.src) return;
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      
-      canvas.width = originalImage.width;
-      canvas.height = originalImage.height;
-
-      ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturate.value}%) blur(${blur.value}px) sepia(${currentSepia}%)`;
+      ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturate.value}%) blur(${blur.value}px)`;
       ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
 
       const link = document.createElement('a');
@@ -618,6 +284,3 @@
   </script>
 </body>
 </html>
-
-</html>
-
