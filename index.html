@@ -52,4 +52,307 @@
         </div>
 
         <canvas id="photoCanvas" class="hidden"></canvas>
-        <input
+        <input type="file" id="imageInput" accept="image/*" class="hidden">
+      </div>
+
+      <!-- Action Buttons -->
+      <div id="actionControls" class="hidden flex flex-wrap items-center justify-center gap-3">
+        <button onclick="downloadImage()" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-lg flex items-center gap-2">
+          <i class="fa-solid fa-download"></i> Download HD Studio Photo
+        </button>
+        <button onclick="resetAll()" class="bg-slate-800 hover:bg-slate-700 text-rose-400 font-medium px-4 py-3 rounded-xl text-xs border border-slate-700">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- AI Chat Assistant Box (Naya Feature: Koi bhi sawal pucho, AI jawab dega) -->
+    <div class="glass-card rounded-3xl p-5 space-y-3 border border-pink-500/30">
+      <h3 class="text-sm font-bold text-pink-400 flex items-center gap-2">
+        <i class="fa-solid fa-robot"></i> RAO STUDIO AI Assistant (Kuchh bhi poochho)
+      </h3>
+      <div class="flex gap-2">
+        <input type="text" id="aiQuestion" placeholder="Jaise: Photo saaf kaise karein? ya Best filter kaun sa hai?" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-pink-500">
+        <button onclick="askAI()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-4 py-2 rounded-xl text-xs shadow">Ask AI</button>
+      </div>
+      <div id="aiAnswerBox" class="hidden bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 leading-relaxed">
+        <span class="font-bold text-pink-400">AI Answer:</span> <span id="aiAnswerText"></span>
+      </div>
+    </div>
+
+    <!-- Controls Grid -->
+    <div id="toolsPanel" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Studio Background & Text Tool -->
+      <div class="glass-card rounded-3xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">Studio Background & Text</h3>
+        
+        <!-- Background Colors -->
+        <div class="space-y-1.5">
+          <label class="text-xs text-slate-400 font-medium block">Choose Background Color:</label>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="setBgColor('#0f172a')" class="w-7 h-7 rounded-full bg-slate-900 border-2 border-slate-700 hover:scale-110 transition" title="Default Dark"></button>
+            <button onclick="setBgColor('#ffffff')" class="w-7 h-7 rounded-full bg-white border-2 border-slate-400 hover:scale-110 transition" title="Pure White"></button>
+            <button onclick="setBgColor('#000000')" class="w-7 h-7 rounded-full bg-black border-2 border-slate-800 hover:scale-110 transition" title="Jet Black"></button>
+            <button onclick="setBgColor('#facc15')" class="w-7 h-7 rounded-full bg-yellow-400 border-2 border-yellow-600 hover:scale-110 transition" title="Bright Yellow"></button>
+            <button onclick="setBgColor('#ef4444')" class="w-7 h-7 rounded-full bg-red-500 border-2 border-red-700 hover:scale-110 transition" title="Vibrant Red"></button>
+            <button onclick="setBgColor('#3b82f6')" class="w-7 h-7 rounded-full bg-blue-500 border-2 border-blue-700 hover:scale-110 transition" title="Royal Blue"></button>
+            <button onclick="setBgColor('#10b981')" class="w-7 h-7 rounded-full bg-emerald-500 border-2 border-emerald-700 hover:scale-110 transition" title="Emerald Green"></button>
+            <button onclick="setBgColor('#ec4899')" class="w-7 h-7 rounded-full bg-pink-500 border-2 border-pink-700 hover:scale-110 transition" title="Neon Pink"></button>
+          </div>
+        </div>
+
+        <!-- Add Text Tool -->
+        <div class="space-y-1.5 pt-2">
+          <label class="text-xs text-slate-400 font-medium block">Add Watermark / Studio Text:</label>
+          <div class="flex gap-2">
+            <input type="text" id="watermarkInput" placeholder="Enter text (e.g. RAO STUDIO)" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-pink-500">
+            <button onclick="applyWatermark()" class="bg-pink-600 hover:bg-pink-500 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Apply</button>
+          </div>
+        </div>
+
+        <!-- Lighting Sliders -->
+        <div class="space-y-1 pt-2">
+          <div class="flex justify-between text-xs text-slate-400"><span>Brightness</span><span id="valBrightness">100%</span></div>
+          <input type="range" id="brightness" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Contrast</span><span id="valContrast">100%</span></div>
+          <input type="range" id="contrast" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Saturation</span><span id="valSaturate">100%</span></div>
+          <input type="range" id="saturate" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+        </div>
+      </div>
+
+      <!-- AI Enhance & Pro Effects -->
+      <div class="glass-card rounded-3xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">AI Enhancer & Pro Tools</h3>
+        
+        <button onclick="applyAIEnhance()" class="w-full bg-gradient-to-r from-amber-500 to-pink-600 hover:opacity-90 text-white font-bold p-3 rounded-xl text-xs shadow-lg flex items-center justify-center gap-2 transition">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> AI Magic Clean & Clear (HD)
+        </button>
+
+        <div class="space-y-1 pt-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Blur Background Effect</span><span id="valBlur">0px</span></div>
+          <input type="range" id="blur" min="0" max="20" value="0" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+        </div>
+
+        <div class="space-y-2 pt-2">
+          <span class="text-xs text-slate-400 font-medium">Pro Filters</span>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="applyFilter('vivid')" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-bold text-pink-400 border border-slate-700">Vivid Look</button>
+            <button onclick="applyFilter('bw')" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-bold text-slate-300 border border-slate-700">Black & White</button>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-1">
+          <span class="text-xs text-slate-400 font-medium">Transform</span>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="rotateImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs text-slate-300 border border-slate-700">Rotate 90°</button>
+            <button onclick="flipImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs text-slate-300 border border-slate-700">Flip Side</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer with Contact Info -->
+  <footer class="mt-auto border-t border-slate-900 bg-slate-950/80 py-6 px-4 text-center text-xs text-slate-400 space-y-1">
+    <p class="font-bold text-slate-300">RAO STUDIO - All Rights Reserved</p>
+    <p>Contact: <span class="text-pink-400 font-medium">Vimlesh Yadav</span> | Uttar Pradesh, India</p>
+  </footer>
+
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const actionControls = document.getElementById('actionControls');
+    const toolsPanel = document.getElementById('toolsPanel');
+    const bgCanvasWrapper = document.getElementById('bgCanvasWrapper');
+    const textOverlay = document.getElementById('textOverlay');
+    const watermarkInput = document.getElementById('watermarkInput');
+    const canvas = document.getElementById('photoCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const brightness = document.getElementById('brightness');
+    const contrast = document.getElementById('contrast');
+    const saturate = document.getElementById('saturate');
+    const blur = document.getElementById('blur');
+
+    let originalImage = new Image();
+    let rotation = 0;
+    let flipVal = 1;
+    let currentBgColor = '#0f172a';
+    let customText = '';
+
+    imageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          originalImage.src = event.target.result;
+          originalImage.onload = () => {
+            imagePreview.src = originalImage.src;
+            imagePreview.classList.remove('hidden');
+            uploadPlaceholder.classList.add('hidden');
+            actionControls.classList.remove('hidden');
+            toolsPanel.classList.remove('hidden');
+            resetAll();
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // AI Assistant Logic (Smart automatic answers)
+    function askAI() {
+      const qInput = document.getElementById('aiQuestion');
+      const ansBox = document.getElementById('aiAnswerBox');
+      const ansText = document.getElementById('aiAnswerText');
+      const query = qInput.value.trim().toLowerCase();
+
+      if (!query) return;
+
+      let reply = "RAO STUDIO AI: Yeh ek behtareen sawal hai! Aap apni photo ko saaf karne ke liye 'AI Magic Clean & Clear' button dabayein aur background color ya blur slider ka use karein.";
+
+      if (query.includes('saaf') || query.includes('clear') || query.includes('quality')) {
+        reply = "Photo ko bilkul crystal clear karne ke liye 'AI Magic Clean & Clear' button par click karein, contrast 135% par set ho jayega!";
+      } else if (query.includes('background') || query.includes('rang') || query.includes('color')) {
+        reply = "Aap upar diye gaye background color buttons (White, Yellow, Red, Black, Blue) se koi bhi professional studio background select kar sakte hain.";
+      } else if (query.includes('blur') || query.includes('background blur')) {
+        reply = "Background ko blur karne ke liye 'Blur Background Effect' slider ko 5px se 15px tak aage badhayein.";
+      } else if (query.includes('name') || query.includes('owner') || query.includes('kiski')) {
+        reply = "Is website ke founder aur owner Vimlesh Yadav hain jo Uttar Pradesh, India se hain!";
+      }
+
+      ansText.innerText = reply;
+      ansBox.classList.remove('hidden');
+    }
+
+    function setBgColor(color) {
+      currentBgColor = color;
+      bgCanvasWrapper.style.backgroundColor = color;
+    }
+
+    function applyWatermark() {
+      customText = watermarkInput.value.trim();
+      if (customText) {
+        textOverlay.innerText = customText;
+        textOverlay.classList.remove('hidden');
+      } else {
+        textOverlay.classList.add('hidden');
+      }
+    }
+
+    function updateLivePreview() {
+      if (!originalImage.src) return;
+      const b = brightness.value;
+      const c = contrast.value;
+      const s = saturate.value;
+      const bl = blur.value;
+
+      document.getElementById('valBrightness').innerText = b + '%';
+      document.getElementById('valContrast').innerText = c + '%';
+      document.getElementById('valSaturate').innerText = s + '%';
+      document.getElementById('valBlur').innerText = bl + 'px';
+
+      imagePreview.style.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%) blur(${bl}px)`;
+      imagePreview.style.transform = `rotate(${rotation}deg) scaleX(${flipVal})`;
+    }
+
+    [brightness, contrast, saturate, blur].forEach(slider => slider.addEventListener('input', updateLivePreview));
+
+    function rotateImage() {
+      rotation = (rotation + 90) % 360;
+      updateLivePreview();
+    }
+
+    function flipImage() {
+      flipVal *= -1;
+      updateLivePreview();
+    }
+
+    function applyFilter(type) {
+      if (type === 'vivid') {
+        brightness.value = 115; contrast.value = 130; saturate.value = 160; blur.value = 0;
+      } else if (type === 'bw') {
+        brightness.value = 100; contrast.value = 120; saturate.value = 0; blur.value = 0;
+      }
+      updateLivePreview();
+    }
+
+    function applyAIEnhance() {
+      brightness.value = 108;
+      contrast.value = 135;
+      saturate.value = 140;
+      blur.value = 0;
+      updateLivePreview();
+    }
+
+    function resetAll() {
+      brightness.value = 100; contrast.value = 100; saturate.value = 100; blur.value = 0;
+      rotation = 0; flipVal = 1;
+      setBgColor('#0f172a');
+      watermarkInput.value = '';
+      customText = '';
+      textOverlay.classList.add('hidden');
+      document.getElementById('aiAnswerBox').classList.add('hidden');
+      document.getElementById('aiQuestion').value = '';
+      updateLivePreview();
+    }
+
+    function downloadImage() {
+      if (!originalImage.src) return;
+
+      canvas.width = originalImage.naturalWidth || originalImage.width;
+      canvas.height = originalImage.naturalHeight || originalImage.height;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Fill background color
+      ctx.fillStyle = currentBgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate((rotation * Math.PI) / 180);
+      ctx.scale(flipVal, 1);
+
+      ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturate.value}%) blur(${blur.value}px)`;
+      
+      ctx.drawImage(originalImage, -originalImage.width / 2, -originalImage.height / 2);
+      ctx.restore();
+
+      // Draw custom text watermark if added
+      if (customText) {
+        ctx.save();
+        ctx.font = 'bold 36px sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        ctx.shadowBlur = 8;
+        ctx.fillText(customText, canvas.width / 2, canvas.height - 40);
+        ctx.restore();
+      }
+
+      try {
+        const dataURL = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'rao-studio-hd.png';
+        link.href = dataURL;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (err) {
+        alert('Download failed. Please try opening the site in system Chrome browser.');
+      }
+    }
+  </script>
+</body>
+</html>
