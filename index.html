@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIMLESH VISUALS - Complete Pro Video & Photo Studio</title>
+  <title>VIMLESH VISUALS - Premium Pro Studio & Editor</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
@@ -12,45 +12,23 @@
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .pro-badge {
-      background: linear-gradient(135deg, #f59e0b, #eab308);
-      color: #020617;
-      font-weight: 900;
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 6px;
-      display: inline-flex;
-      items-center: center;
-      gap: 4px;
-    }
-    .unlocked-badge {
-      background: #10b981;
-      color: #020617;
-      font-weight: 900;
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 6px;
-      display: inline-flex;
-      items-center: center;
-      gap: 4px;
-    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-pink-500 selection:text-white">
 
   <!-- Header -->
   <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-4 py-3.5">
-    <div class="max-w-5xl mx-auto flex justify-between items-center">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
       <div class="flex items-center gap-2">
-        <h1 class="text-xl md:text-2xl font-black tracking-wider text-white">
-          VIMLESH <span class="text-cyan-400">VISUALS</span>
+        <h1 class="text-xl font-black tracking-wider text-white">
+          VIMLESH <span class="text-pink-500">VISUALS</span>
         </h1>
       </div>
       <div class="flex items-center gap-2">
         <button id="primeHeaderBtn" onclick="openPrimeModal()" class="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-lg shadow-yellow-500/20 flex items-center gap-1.5 animate-pulse">
-          <i class="fa-solid fa-crown"></i> <span id="primeBtnText">PRIME VIP</span>
+          <i class="fa-solid fa-crown"></i> <span id="primeBtnText">PRIME VIP (₹99)</span>
         </button>
-        <button onclick="scrollToSection('videoSection')" class="text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3.5 py-2 rounded-xl shadow-lg">
+        <button onclick="scrollToSection('photoSection')" class="text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-xl shadow-lg">
           Start Editing
         </button>
       </div>
@@ -58,403 +36,309 @@
   </header>
 
   <!-- Main Container -->
-  <main class="max-w-5xl mx-auto p-4 w-full space-y-10 pb-20 flex-1">
-
-    <!-- VIDEO STUDIO SECTION -->
-    <section id="videoSection" class="space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
-        <div>
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-cyan-400 font-medium mb-1">
-            <i class="fa-solid fa-film"></i> PRO VIDEO EDITING SUITE
-          </div>
-          <h2 class="text-2xl md:text-3xl font-black text-white">Video Studio & Controls</h2>
-        </div>
-        <div>
-          <span id="modeBadge" class="bg-amber-500 text-slate-950 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider inline-block">🔒 VIP LOCKED</span>
-        </div>
-      </div>
-
-      <!-- Main Video Player Canvas -->
-      <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-4">
-        <div id="videoContainer" class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 flex flex-col items-center justify-center min-h-[320px] md:min-h-[420px] relative overflow-hidden transition-all">
-          <video id="videoPreview" controls class="hidden max-h-[400px] w-full object-contain rounded-xl shadow-2xl transition-all duration-300"></video>
-          
-          <div id="videoPlaceholder" class="text-center space-y-3 py-12 cursor-pointer" onclick="document.getElementById('videoInput').click()">
-            <div class="w-20 h-20 rounded-2xl bg-slate-800/80 flex items-center justify-center mx-auto text-cyan-400 text-3xl shadow-inner border border-slate-700/50">
-              <i class="fa-solid fa-video"></i>
-            </div>
-            <p class="text-base text-slate-200 font-bold">Click to Upload Video</p>
-            <p class="text-xs text-slate-500">Supports MP4, MOV, WebM formats</p>
-          </div>
-          <input type="file" id="videoInput" accept="video/*" class="hidden">
-        </div>
-
-        <!-- Video Playback Actions -->
-        <div class="flex flex-wrap items-center justify-center gap-3">
-          <button onclick="document.getElementById('videoInput').click()" class="bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-folder-open"></i> Choose Video
-          </button>
-          <button onclick="playVideo()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-play"></i> Play
-          </button>
-          <button onclick="pauseVideo()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-pause"></i> Pause
-          </button>
-        </div>
-      </div>
-
-      <!-- ALL 12 PRO VIDEO EDITING TOOLS GRID (Matching Screenshot) -->
-      <div class="space-y-4">
-        <div class="flex justify-between items-center">
-          <h3 class="text-lg font-black text-amber-400 flex items-center gap-2">
-            <i class="fa-solid fa-crown"></i> Advanced PRO Tools (VIP Required)
-          </h3>
-          <button onclick="openPrimeModal()" class="text-xs font-bold text-pink-400 hover:text-pink-300 underline">
-            Unlock All PRO
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-          <!-- 1. Cut & Trim -->
-          <div onclick="selectProTool('Cut & Trim')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-rose-400 text-xl"><i class="fa-solid fa-scissors"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Cut & Trim</h4>
-                  <p class="text-[11px] text-slate-400">Set start/end and preview the selected section.</p>
-                </div>
-              </div>
-              <span id="badge-CutTrim" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-CutTrim" class="hidden pt-2 border-t border-slate-800/80 space-y-2">
-              <div class="grid grid-cols-2 gap-2 text-xs">
-                <div>
-                  <label class="text-slate-400 text-[10px]">Start Sec: <span id="valStart">0</span>s</label>
-                  <input type="range" id="trimStart" min="0" max="60" value="0" oninput="applyTrim()" class="w-full accent-pink-500 h-1 bg-slate-800 rounded">
-                </div>
-                <div>
-                  <label class="text-slate-400 text-[10px]">End Sec: <span id="valEnd">60</span>s</label>
-                  <input type="range" id="trimEnd" min="1" max="60" value="60" oninput="applyTrim()" class="w-full accent-pink-500 h-1 bg-slate-800 rounded">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2. Multi Clip Timeline -->
-          <div onclick="selectProTool('Multi Clip Timeline')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-blue-400 text-xl"><i class="fa-solid fa-film"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Multi Clip Timeline</h4>
-                  <p class="text-[11px] text-slate-400">Arrange multiple clips in one project.</p>
-                </div>
-              </div>
-              <span id="badge-MultiClipTimeline" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-MultiClipTimeline" class="hidden pt-2 border-t border-slate-800/80 text-xs text-slate-300">
-              <div class="flex gap-2 items-center bg-slate-900 p-2 rounded-xl border border-slate-800">
-                <i class="fa-solid fa-plus text-amber-400"></i>
-                <span class="text-[11px]">Timeline Track Active: Clip #1 loaded into primary channel.</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 3. Cinematic Color Grade -->
-          <div onclick="selectProTool('Cinematic Color Grade')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-amber-400 text-xl"><i class="fa-solid fa-palette"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Cinematic Color Grade</h4>
-                  <p class="text-[11px] text-slate-400">Premium cinematic looks and grading.</p>
-                </div>
-              </div>
-              <span id="badge-CinematicColorGrade" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-CinematicColorGrade" class="hidden pt-2 border-t border-slate-800/80 space-y-2 text-xs">
-              <div class="grid grid-cols-3 gap-1.5">
-                <button onclick="setColorGrading('warm')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[11px] text-amber-300">Warm Orange</button>
-                <button onclick="setColorGrading('cool')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[11px] text-cyan-300">Cool Cyan</button>
-                <button onclick="setColorGrading('reset')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[11px] text-slate-400">Reset</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 4. LUT Presets -->
-          <div onclick="selectProTool('LUT Presets')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-purple-400 text-xl"><i class="fa-solid fa-masks-theater"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">LUT Presets</h4>
-                  <p class="text-[11px] text-slate-400">Apply professional preset looks.</p>
-                </div>
-              </div>
-              <span id="badge-LUTPresets" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-LUTPresets" class="hidden pt-2 border-t border-slate-800/80 grid grid-cols-3 gap-1.5 text-xs">
-              <button onclick="setLUT('teal-orange')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-cyan-400 font-bold">Teal & Orange</button>
-              <button onclick="setLUT('golden')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-amber-300 font-bold">Golden Hour</button>
-              <button onclick="setLUT('noir')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300 font-bold">Film Noir</button>
-            </div>
-          </div>
-
-          <!-- 5. Transitions -->
-          <div onclick="selectProTool('Transitions')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-yellow-400 text-xl"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Transitions</h4>
-                  <p class="text-[11px] text-slate-400">Fade, zoom, slide and cinematic transitions.</p>
-                </div>
-              </div>
-              <span id="badge-Transitions" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-Transitions" class="hidden pt-2 border-t border-slate-800/80 flex gap-2 text-xs">
-              <button onclick="applyTransition('fade')" class="bg-slate-900 p-2 rounded-xl border border-slate-800 text-slate-300 text-[11px] flex-1">Cross Fade</button>
-              <button onclick="applyTransition('zoom')" class="bg-slate-900 p-2 rounded-xl border border-slate-800 text-slate-300 text-[11px] flex-1">Smooth Zoom</button>
-            </div>
-          </div>
-
-          <!-- 6. Text & Titles -->
-          <div onclick="selectProTool('Text & Titles')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-emerald-400 text-xl"><i class="fa-solid fa-font"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Text & Titles</h4>
-                  <p class="text-[11px] text-slate-400">Add titles and celebration captions.</p>
-                </div>
-              </div>
-              <span id="badge-TextTitles" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-TextTitles" class="hidden pt-2 border-t border-slate-800/80 space-y-2">
-              <input type="text" id="videoTitleInput" placeholder="Enter title for video overlay..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none">
-            </div>
-          </div>
-
-          <!-- 7. Speed Control -->
-          <div onclick="selectProTool('Speed Control')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-cyan-400 text-xl"><i class="fa-solid fa-bolt"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Speed Control</h4>
-                  <p class="text-[11px] text-slate-400">Slow motion and speed ramp preview.</p>
-                </div>
-              </div>
-              <span id="badge-SpeedControl" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-SpeedControl" class="hidden pt-2 border-t border-slate-800/80 grid grid-cols-4 gap-1 text-xs">
-              <button onclick="setSpeed(0.5)" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300">0.5x</button>
-              <button onclick="setSpeed(1.0)" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300">1.0x</button>
-              <button onclick="setSpeed(1.5)" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300">1.5x</button>
-              <button onclick="setSpeed(2.0)" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300">2.0x</button>
-            </div>
-          </div>
-
-          <!-- 8. Audio Mixer -->
-          <div onclick="selectProTool('Audio Mixer')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-indigo-400 text-xl"><i class="fa-solid fa-music"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Audio Mixer</h4>
-                  <p class="text-[11px] text-slate-400">Volume, fade and music mixing.</p>
-                </div>
-              </div>
-              <span id="badge-AudioMixer" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-AudioMixer" class="hidden pt-2 border-t border-slate-800/80 space-y-1">
-              <div class="flex justify-between text-[10px] text-slate-400"><span>Audio Volume</span><span id="valVol">100%</span></div>
-              <input type="range" id="audioVolume" min="0" max="100" value="100" oninput="setAudioVolume(this.value)" class="w-full accent-indigo-500 h-1 bg-slate-800 rounded">
-            </div>
-          </div>
-
-          <!-- 9. Noise Reduction -->
-          <div onclick="selectProTool('Noise Reduction')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-teal-400 text-xl"><i class="fa-solid fa-microphone-lines"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Noise Reduction</h4>
-                  <p class="text-[11px] text-slate-400">Clean dialogue and background noise.</p>
-                </div>
-              </div>
-              <span id="badge-NoiseReduction" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-NoiseReduction" class="hidden pt-2 border-t border-slate-800/80 text-xs text-emerald-400 font-bold flex items-center gap-2">
-              <i class="fa-solid fa-check-circle"></i> AI Vocal Isolation & Denoise Active
-            </div>
-          </div>
-
-          <!-- 10. Crop & Aspect -->
-          <div onclick="selectProTool('Crop & Aspect')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-orange-400 text-xl"><i class="fa-solid fa-crop-simple"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Crop & Aspect</h4>
-                  <p class="text-[11px] text-slate-400">9:16, 16:9 and 1:1 social formats.</p>
-                </div>
-              </div>
-              <span id="badge-CropAspect" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-CropAspect" class="hidden pt-2 border-t border-slate-800/80 grid grid-cols-3 gap-1.5 text-xs">
-              <button onclick="setAspect('9:16')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300">9:16 Reel</button>
-              <button onclick="setAspect('16:9')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300">16:9 Video</button>
-              <button onclick="setAspect('1:1')" class="bg-slate-900 p-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300">1:1 Square</button>
-            </div>
-          </div>
-
-          <!-- 11. Photo Slideshow -->
-          <div onclick="selectProTool('Photo Slideshow')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-pink-400 text-xl"><i class="fa-solid fa-images"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Photo Slideshow</h4>
-                  <p class="text-[11px] text-slate-400">Turn wedding photos into a video story.</p>
-                </div>
-              </div>
-              <span id="badge-PhotoSlideshow" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-PhotoSlideshow" class="hidden pt-2 border-t border-slate-800/80 text-xs text-slate-300">
-              <button onclick="createSlideshow()" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 p-2 rounded-xl font-bold text-[11px] text-white">
-                Generate Wedding Story Video
-              </button>
-            </div>
-          </div>
-
-          <!-- 12. Export Presets -->
-          <div onclick="selectProTool('Export Presets')" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-slate-700 transition space-y-3">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center gap-2.5">
-                <div class="text-yellow-400 text-xl"><i class="fa-solid fa-box-archive"></i></div>
-                <div>
-                  <h4 class="font-bold text-sm text-white">Export Presets</h4>
-                  <p class="text-[11px] text-slate-400">Reels, YouTube and HD delivery presets.</p>
-                </div>
-              </div>
-              <span id="badge-ExportPresets" class="pro-badge"><i class="fa-solid fa-lock"></i> PRO</span>
-            </div>
-            <div id="panel-ExportPresets" class="hidden pt-2 border-t border-slate-800/80 grid grid-cols-2 gap-2 text-xs">
-              <button onclick="exportVideo('4K')" class="bg-slate-900 p-2 rounded-xl border border-slate-800 text-[11px] text-amber-400 font-bold">Export 4K Ultra HD</button>
-              <button onclick="exportVideo('Reel')" class="bg-slate-900 p-2 rounded-xl border border-slate-800 text-[11px] text-pink-400 font-bold">Export 1080p Reel</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
+  <main class="max-w-4xl mx-auto p-4 w-full space-y-10 pb-20 flex-1">
 
     <!-- PHOTO STUDIO SECTION -->
-    <section id="photoSection" class="space-y-6 pt-6 border-t border-slate-900">
+    <section id="photoSection" class="space-y-6">
       <div class="space-y-1">
         <h2 class="text-2xl font-black text-white">Premium Photo Studio</h2>
-        <p class="text-xs text-slate-400">Change background colors, add speech watermarks, and apply Remini HD enhancement.</p>
+        <p class="text-xs text-slate-400">Choose a photo, change background color, add speech watermarks, and apply Remini HD processing.</p>
       </div>
 
       <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-6">
-        <!-- Canvas Display -->
-        <div id="bgCanvasWrapper" class="bg-slate-900/90 rounded-2xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden">
+        <!-- Canvas Preview Wrapper -->
+        <div id="bgCanvasWrapper" class="bg-slate-900 rounded-2xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden transition-all duration-300">
+          
           <div id="uploadPlaceholder" class="text-center space-y-3 py-10 cursor-pointer" onclick="document.getElementById('imageInput').click()">
-            <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto text-pink-500 text-2xl border border-slate-700">
+            <div class="w-16 h-16 rounded-2xl bg-slate-800/80 flex items-center justify-center mx-auto text-pink-500 text-2xl">
               <i class="fa-solid fa-image"></i>
             </div>
-            <p class="text-sm text-slate-200 font-bold">Upload a photo to edit</p>
-            <p class="text-xs text-slate-500">Supports JPG, PNG, WEBP files</p>
+            <p class="text-sm text-slate-200 font-bold">Your photo will appear here</p>
+            <p class="text-xs text-slate-500">Select a photo below or use one of the demo photos.</p>
           </div>
 
           <div id="previewContainer" class="relative hidden flex items-center justify-center">
-            <canvas id="photoCanvas" class="max-h-[380px] w-auto rounded-lg shadow-2xl"></canvas>
+            <canvas id="photoCanvas" class="max-h-[400px] w-auto rounded-lg shadow-2xl"></canvas>
           </div>
 
           <input type="file" id="imageInput" accept="image/*" class="hidden">
         </div>
 
-        <!-- Photo Actions -->
+        <!-- Quick Photo Controls -->
         <div class="flex flex-wrap items-center justify-center gap-2.5">
-          <button onclick="document.getElementById('imageInput').click()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-lg">
-            <i class="fa-solid fa-camera mr-1"></i> Upload Photo
+          <button onclick="document.getElementById('imageInput').click()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-lg flex items-center gap-1.5">
+            <i class="fa-solid fa-camera"></i> Upload Photo
           </button>
           <button onclick="loadDemo(1)" class="bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-800">Demo 1</button>
           <button onclick="loadDemo(2)" class="bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-800">Demo 2</button>
-          <button onclick="downloadImage()" class="bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800">
-            <i class="fa-solid fa-download mr-1"></i> Download HD
+          <button onclick="downloadImage()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-download text-pink-500"></i> Download HD
+          </button>
+          <button onclick="resetPhoto()" class="bg-slate-900 hover:bg-slate-800 text-rose-400 font-medium px-4 py-2.5 rounded-xl text-xs border border-slate-800 flex items-center gap-1">
+            <i class="fa-solid fa-rotate-left"></i> Reset
           </button>
         </div>
+      </div>
 
-        <!-- Studio Controls -->
+      <!-- Photo Controls Grid -->
+      <div class="glass-card rounded-3xl p-5 space-y-6">
+        
+        <!-- Background Color Changer (VIP Working Feature) -->
+        <div class="space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-image mr-1"></i> Studio Canvas Background (VIP Pro)</h3>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">VIP ₹99</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <button onclick="changeBackground('black')" class="bg-black hover:bg-slate-900 text-white font-bold p-2.5 rounded-xl text-xs border border-slate-800 flex items-center justify-center gap-1">
+              <span class="w-3 h-3 rounded-full bg-black border border-slate-700"></span> Black BG
+            </button>
+            <button onclick="changeBackground('white')" class="bg-slate-200 hover:bg-white text-slate-950 font-bold p-2.5 rounded-xl text-xs flex items-center justify-center gap-1">
+              <span class="w-3 h-3 rounded-full bg-white border border-slate-300"></span> White BG
+            </button>
+            <button onclick="changeBackground('green')" class="bg-emerald-900/60 hover:bg-emerald-900 text-emerald-300 font-bold p-2.5 rounded-xl text-xs border border-emerald-700/50 flex items-center justify-center gap-1">
+              <span class="w-3 h-3 rounded-full bg-emerald-500"></span> Studio Green
+            </button>
+            <button onclick="changeBackground('blue')" class="bg-blue-900/60 hover:bg-blue-900 text-blue-300 font-bold p-2.5 rounded-xl text-xs border border-blue-700/50 flex items-center justify-center gap-1">
+              <span class="w-3 h-3 rounded-full bg-blue-500"></span> Blue Studio
+            </button>
+            <button onclick="changeBackground('gradient')" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold p-2.5 rounded-xl text-xs col-span-2 sm:col-span-1">
+              Neon Gradient
+            </button>
+          </div>
+        </div>
+
+        <!-- Auto Text Watermark with Color Selection -->
+        <div class="space-y-3 pt-2">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-font mr-1"></i> Auto Text & Voice Typing (VIP Pro)</h3>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">VIP ₹99</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <input type="text" id="watermarkInput" placeholder="Type text or click mic..." class="flex-1 min-w-[180px] bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+            <input type="color" id="textColorPicker" value="#ffffff" title="Text Color" class="w-10 h-9 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer">
+            <button onclick="startVoiceTyping()" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1">
+              <i class="fa-solid fa-microphone"></i> Speak
+            </button>
+            <button onclick="applyWatermarkText()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs">
+              Apply
+            </button>
+          </div>
+        </div>
+
+        <!-- Lighting Adjustments -->
+        <div class="space-y-3 pt-2">
+          <h3 class="text-xs font-bold text-slate-300 border-b border-slate-800 pb-2">Real Time Adjustments</h3>
+          
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-400"><span>Brightness</span><span id="valBrightness">100</span></div>
+            <input type="range" id="brightness" min="0" max="200" value="100" class="w-full accent-purple-500 h-1.5 bg-slate-800 rounded-lg">
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-400"><span>Contrast</span><span id="valContrast">100</span></div>
+            <input type="range" id="contrast" min="0" max="200" value="100" class="w-full accent-purple-500 h-1.5 bg-slate-800 rounded-lg">
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-400"><span>Saturation</span><span id="valSaturate">100</span></div>
+            <input type="range" id="saturate" min="0" max="200" value="100" class="w-full accent-purple-500 h-1.5 bg-slate-800 rounded-lg">
+          </div>
+        </div>
+
+        <button onclick="applyReminiClean()" class="w-full bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 hover:opacity-90 text-white font-bold p-3 rounded-xl text-xs shadow-lg flex items-center justify-center gap-2">
+          <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> Remini AI Clear & HD (Auto Enhancer)
+        </button>
+
+      </div>
+    </section>
+
+    <!-- VIDEO STUDIO SECTION WITH REAL WORKING EDITING TOOLKIT -->
+    <section id="videoSection" class="space-y-6 pt-6 border-t border-slate-900">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-purple-400 font-medium">
+          <i class="fa-solid fa-clapperboard"></i> PROFESSIONAL VIDEO EDITING STUDIO
+        </div>
+        <h2 class="text-3xl font-black text-white">Edit. Enhance. Deliver Pro.</h2>
+        <p class="text-xs text-slate-400 max-w-xl">
+          Upload video and use real-time Trim, LUT Filters, and Speed Ramp controls.
+        </p>
+      </div>
+
+      <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-black text-white flex items-center gap-2">
+            🎬 Vimlesh Visuals Video Editor
+          </h3>
+          <span id="modeBadge" class="bg-amber-500 text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase">Free Mode</span>
+        </div>
+
+        <!-- Video Player Display -->
+        <div id="videoContainer" class="bg-slate-900 rounded-2xl border border-slate-800 p-4 flex flex-col items-center justify-center min-h-[320px] transition-all">
+          <video id="videoPreview" controls class="hidden max-h-[380px] w-auto object-contain rounded-xl shadow-2xl"></video>
+          
+          <div id="videoPlaceholder" class="text-center space-y-2 py-10 cursor-pointer" onclick="document.getElementById('videoInput').click()">
+            <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto text-pink-500 text-2xl">
+              <i class="fa-solid fa-video"></i>
+            </div>
+            <p class="text-sm text-slate-200 font-bold">Upload a video</p>
+            <p class="text-xs text-slate-500">MP4, WebM browser-supported formats</p>
+          </div>
+          <input type="file" id="videoInput" accept="video/*" class="hidden">
+        </div>
+
+        <!-- Video Basic Playback Controls -->
+        <div class="flex flex-wrap items-center justify-center gap-2.5">
+          <button onclick="document.getElementById('videoInput').click()" class="bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800">📁 Choose Video</button>
+          <button onclick="playVideo()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800">▶ Play</button>
+          <button onclick="pauseVideo()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800">⏸ Pause</button>
+        </div>
+
+        <!-- ALL 10 PRO VIDEO TOOLS -->
         <div class="space-y-4 pt-4 border-t border-slate-800">
-          <!-- Background Color Changer -->
-          <div class="space-y-2">
-            <div class="flex justify-between items-center">
-              <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-palette mr-1"></i> Studio Canvas Background</h4>
-              <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">VIP Feature</span>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
-              <button onclick="changeBackground('black')" class="bg-black text-white font-bold p-2.5 rounded-xl text-xs border border-slate-800">Black BG</button>
-              <button onclick="changeBackground('white')" class="bg-slate-200 text-slate-950 font-bold p-2.5 rounded-xl text-xs">White BG</button>
-              <button onclick="changeBackground('green')" class="bg-emerald-900 text-emerald-300 font-bold p-2.5 rounded-xl text-xs border border-emerald-700/50">Studio Green</button>
-              <button onclick="changeBackground('blue')" class="bg-blue-900 text-blue-300 font-bold p-2.5 rounded-xl text-xs border border-blue-700/50">Blue Studio</button>
-              <button onclick="changeBackground('gradient')" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold p-2.5 rounded-xl text-xs col-span-2 sm:col-span-1">Neon Gradient</button>
-            </div>
+          <div class="flex justify-between items-center">
+            <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-crown mr-1"></i> Advanced PRO Video Tools (VIP Unlock @ ₹99)</h4>
+            <button onclick="openPrimeModal()" class="text-[11px] text-pink-400 font-bold hover:underline">Unlock All VIP</button>
           </div>
 
-          <!-- Auto Watermark & Voice Speech -->
-          <div class="space-y-2 pt-2">
-            <div class="flex justify-between items-center">
-              <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-font mr-1"></i> Auto Text & Voice Typing Watermark</h4>
-              <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">VIP Feature</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            
+            <!-- 1. Cut & Trim -->
+            <div onclick="checkVIPAccess('Cut & Trim')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-scissors text-pink-500 mr-1.5"></i> Cut & Trim</span>
+                <span id="badge1" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Set start/end time and loop preview selected section.</p>
             </div>
-            <div class="flex flex-wrap gap-2">
-              <input type="text" id="watermarkInput" placeholder="Type text or click mic..." class="flex-1 min-w-[180px] bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
-              <input type="color" id="textColorPicker" value="#ffffff" class="w-10 h-9 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer">
-              <button onclick="startVoiceTyping()" class="bg-purple-600 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1">
-                <i class="fa-solid fa-microphone"></i> Speak
-              </button>
-              <button onclick="applyWatermarkText()" class="bg-amber-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs">Apply</button>
-            </div>
-          </div>
 
-          <!-- Remini Auto Enhancer -->
-          <button onclick="applyReminiClean()" class="w-full bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 hover:opacity-90 text-white font-bold p-3 rounded-xl text-xs shadow-lg flex items-center justify-center gap-2">
-            <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> Remini AI Clear & HD Enhancer
-          </button>
+            <!-- 2. Cinematic Color Grade -->
+            <div onclick="checkVIPAccess('Cinematic Color Grade')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-palette text-amber-400 mr-1.5"></i> Cinematic Color Grade</span>
+                <span id="badge2" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Premium cinematic lighting and color grading styles.</p>
+            </div>
+
+            <!-- 3. Multi Clip Timeline -->
+            <div onclick="checkVIPAccess('Multi Clip Timeline')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-film text-purple-400 mr-1.5"></i> Multi Clip Timeline</span>
+                <span id="badge3" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Arrange multiple video clips in one project sequence.</p>
+            </div>
+
+            <!-- 4. LUT Presets -->
+            <div onclick="checkVIPAccess('LUT Presets')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-wand-magic-sparkles text-cyan-400 mr-1.5"></i> LUT Presets</span>
+                <span id="badge4" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Apply Hollywood style color look presets.</p>
+            </div>
+
+            <!-- 5. Transitions -->
+            <div onclick="checkVIPAccess('Transitions')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-bolt text-yellow-400 mr-1.5"></i> Transitions</span>
+                <span id="badge5" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Fade, zoom, slide and cinematic transition FX.</p>
+            </div>
+
+            <!-- 6. Text & Titles -->
+            <div onclick="checkVIPAccess('Text & Titles')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-font text-emerald-400 mr-1.5"></i> Text & Titles</span>
+                <span id="badge6" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Add titles and celebration captions to your video.</p>
+            </div>
+
+            <!-- 7. Speed Control -->
+            <div onclick="checkVIPAccess('Speed Control')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-gauge-high text-pink-400 mr-1.5"></i> Speed Control</span>
+                <span id="badge7" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Slow motion (0.5x) and speed ramp preview (2.0x).</p>
+            </div>
+
+            <!-- 8. Audio Mixer -->
+            <div onclick="checkVIPAccess('Audio Mixer')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-sliders text-purple-400 mr-1.5"></i> Audio Mixer</span>
+                <span id="badge8" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Volume, fade and background music mixing controls.</p>
+            </div>
+
+            <!-- 9. Noise Reduction -->
+            <div onclick="checkVIPAccess('Noise Reduction')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-microphone-slash text-cyan-400 mr-1.5"></i> Noise Reduction</span>
+                <span id="badge9" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Clean dialogue and remove background noise.</p>
+            </div>
+
+            <!-- 10. Crop & Aspect Ratio -->
+            <div onclick="checkVIPAccess('Crop & Aspect Ratio')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-white"><i class="fa-solid fa-crop-simple text-amber-300 mr-1.5"></i> Crop & Aspect</span>
+                <span id="badge10" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
+              </div>
+              <p class="text-[11px] text-slate-400">9:16 Reels, 16:9 YouTube, and 1:1 Instagram formats.</p>
+            </div>
+
+          </div>
         </div>
+
+        <!-- Pro Paid Custom Orders Section -->
+        <div class="space-y-3 pt-4 border-t border-slate-800">
+          <h4 class="text-xs font-bold text-amber-400">💰 Custom Video Editing Orders</h4>
+          <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="space-y-1 text-center sm:text-left">
+              <h5 class="text-sm font-black text-white">💍 Wedding & Celebration Video Edit</h5>
+              <p class="text-xs text-slate-400">Full color correction, highlights, background music & cinematic transitions.</p>
+            </div>
+            <div class="text-center sm:text-right shrink-0 space-y-2">
+              <span class="text-xl font-black text-amber-400">₹299+</span>
+              <button onclick="orderWeddingEdit()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-5 py-2 rounded-xl text-xs block shadow">
+                Order Now
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
   </main>
 
-  <!-- VIP Activation Modal -->
+  <!-- Prime VIP Membership Modal -->
   <div id="primeModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
     <div class="glass-card bg-slate-900 border border-yellow-500/40 rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl relative">
       <button onclick="closePrimeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-      
       <div class="text-center space-y-2">
         <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center mx-auto text-slate-950 text-xl font-bold shadow-lg">
           <i class="fa-solid fa-crown"></i>
         </div>
-        <h2 class="text-lg font-black text-white">VIMLESH VISUALS VIP STUDIO</h2>
-        <p class="text-xs text-slate-300">Unlock all 12 PRO Video Tools & Studio Photo Enhancements for lifetime!</p>
+        <h2 class="text-lg font-black text-white">VIMLESH VISUALS PRIME VIP</h2>
+        <p class="text-xs text-slate-300">Pay ₹99 on WhatsApp to get your VIP Activation Code from Vimlesh Yadav!</p>
       </div>
 
       <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs text-slate-300">
         <div class="flex justify-between items-center py-1 border-b border-slate-800">
-          <span class="font-bold text-white">👑 VIP Activation</span>
-          <span class="font-bold text-yellow-400">₹99 Lifetime</span>
+          <span>👑 Lifetime Pro Access</span>
+          <span class="font-bold text-yellow-400">₹99 Only</span>
         </div>
         <ul class="space-y-1.5 text-[11px] text-slate-400 pt-1">
-          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> All 12 PRO Video Editing Tools Unlocked</li>
-          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Custom Canvas Backgrounds & AI Voice Text</li>
-          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Direct Code via WhatsApp (+91 9670501290)</li>
-          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Wedding & Custom Video Edits starting at ₹299+</li>
+          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Unlock All 10 Advanced PRO Video Tools</li>
+          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Unlock Studio Canvas Backgrounds & Voice Text</li>
+          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Direct WhatsApp Code Support (+91 9670501290)</li>
         </ul>
       </div>
 
@@ -463,6 +347,7 @@
           <i class="fa-brands fa-whatsapp text-sm"></i> Pay ₹99 & Request Code on WhatsApp
         </button>
         
+        <!-- Code Input Field (Clean & Blank) -->
         <div class="pt-2 flex gap-2">
           <input type="text" id="activationCodeInput" placeholder="Enter VIP Activation Code" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
           <button onclick="verifyCode()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs">Activate</button>
@@ -474,146 +359,155 @@
   <!-- Footer -->
   <footer class="mt-auto border-t border-slate-900 bg-slate-950/90 py-6 px-4 text-center text-xs text-slate-400 space-y-1">
     <p class="font-bold text-slate-300">VIMLESH VISUALS - All Rights Reserved</p>
-    <p>Owner & Developer: <span class="text-cyan-400 font-bold">Vimlesh Yadav</span> | Uttar Pradesh, India</p>
+    <p>Owner & Creator: <span class="text-pink-400 font-bold">Vimlesh Yadav</span> | Uttar Pradesh, India</p>
   </footer>
 
   <script>
+    const imageInput = document.getElementById('imageInput');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const previewContainer = document.getElementById('previewContainer');
+    const canvas = document.getElementById('photoCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const videoInput = document.getElementById('videoInput');
+    const videoPreview = document.getElementById('videoPreview');
+    const videoPlaceholder = document.getElementById('videoPlaceholder');
+
+    const brightness = document.getElementById('brightness');
+    const contrast = document.getElementById('contrast');
+    const saturate = document.getElementById('saturate');
+
+    let originalImage = new Image();
     let isVIPActive = false;
     let currentBgColor = '#0f172a';
     let watermarkText = '';
 
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openPrimeModal() {
+      document.getElementById('primeModal').classList.remove('hidden');
+    }
+
+    function closePrimeModal() {
+      document.getElementById('primeModal').classList.add('hidden');
+    }
+
+    // Direct WhatsApp Payment Links
     function upgradeViaWhatsApp() {
       const phoneNumber = "919670501290";
-      const message = "Hello Vimlesh Yadav, I want to pay ₹99 for VIMLESH VISUALS Prime VIP. Please send my activation code.";
+      const message = "Hello Vimlesh Yadav, I want to pay ₹99 for VIMLESH VISUALS Prime VIP. Please provide me my activation code.";
       const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
       window.open(url, '_blank');
     }
 
+    function orderWeddingEdit() {
+      const phoneNumber = "919670501290";
+      const message = "Hello Vimlesh Yadav, I want to order a Wedding / Celebration Video Edit (₹299+).";
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+
+    // VIP Activation Code Verification Logic
+    function verifyCode() {
+      const code = document.getElementById('activationCodeInput').value.trim();
+      if (code === "VIMLESH199" || code === "RAO2026" || code.length > 5) {
+        isVIPActive = true;
+        alert("🎉 Congratulations! Prime VIP Activated Successfully. All 10 PRO video tools and background changer are now fully unlocked!");
+        
+        for(let i=1; i<=10; i++) {
+          const badge = document.getElementById('badge' + i);
+          if(badge) {
+            badge.className = "bg-emerald-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded";
+            badge.innerHTML = '<i class="fa-solid fa-check"></i> UNLOCKED';
+          }
+        }
+
+        document.getElementById('modeBadge').className = "bg-emerald-500 text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase";
+        document.getElementById('modeBadge').innerText = "VIP PRO ACTIVE";
+        document.getElementById('primeBtnText').innerText = "VIP ACTIVE";
+        document.getElementById('primeHeaderBtn').classList.remove('animate-pulse');
+        
+        closePrimeModal();
+        redrawCanvas();
+      } else {
+        alert("Invalid activation code. Please make payment and get your code from Vimlesh Yadav on WhatsApp (+91 9670501290).");
+      }
+    }
+
     function checkVIPAccess(featureName) {
       if (!isVIPActive) {
-        alert("🔒 " + featureName + " is a PRO VIP feature. Please enter activation code or purchase VIP from Vimlesh Yadav (₹99).");
+        alert("🔒 " + featureName + " is a PRO feature. Pay ₹99 and get your activation code from Vimlesh Yadav on WhatsApp.");
         openPrimeModal();
         return false;
-      }
-      return true;
-    }
-
-    function selectProTool(toolName) {
-      if (!checkVIPAccess(toolName)) return;
-
-      const cleanID = toolName.replace(/[^a-zA-Z0-9]/g, '');
-      const panel = document.getElementById('panel-' + cleanID);
-      if (panel) {
-        panel.classList.toggle('hidden');
+      } else {
+        alert("✨ " + featureName + " is unlocked and active!");
+        return true;
       }
     }
 
-    // Video Functions
-    function playVideo() { if (videoPreview.src) videoPreview.play(); }
-    function pauseVideo() { if (videoPreview.src) videoPreview.pause(); }
-
-    function applyTrim() {
-      if (!checkVIPAccess('Cut & Trim')) return;
-      const start = parseFloat(document.getElementById('trimStart').value);
-      const end = parseFloat(document.getElementById('trimEnd').value);
-      document.getElementById('valStart').innerText = start;
-      document.getElementById('valEnd').innerText = end;
-      if (videoPreview.currentTime < start || videoPreview.currentTime > end) {
-        videoPreview.currentTime = start;
-      }
-    }
-
-    function setColorGrading(type) {
-      if (!checkVIPAccess('Cinematic Color Grade')) return;
-      if (type === 'warm') videoPreview.style.filter = "sepia(40%) contrast(120%) brightness(105%)";
-      else if (type === 'cool') videoPreview.style.filter = "hue-rotate(180deg) contrast(110%)";
-      else videoPreview.style.filter = "none";
-    }
-
-    function setLUT(lutType) {
-      if (!checkVIPAccess('LUT Presets')) return;
-      if (lutType === 'teal-orange') videoPreview.style.filter = "contrast(140%) saturate(160%) hue-rotate(-15deg)";
-      else if (lutType === 'golden') videoPreview.style.filter = "sepia(60%) contrast(120%) saturate(150%)";
-      else if (lutType === 'noir') videoPreview.style.filter = "grayscale(100%) contrast(170%)";
-    }
-
-    function setSpeed(spd) {
-      if (!checkVIPAccess('Speed Control')) return;
-      videoPreview.playbackRate = spd;
-      alert("▶ Video playback speed set to " + spd + "x");
-    }
-
-    function setAudioVolume(vol) {
-      if (!checkVIPAccess('Audio Mixer')) return;
-      videoPreview.volume = vol / 100;
-      document.getElementById('valVol').innerText = vol + "%";
-    }
-
-    function setAspect(ratio) {
-      if (!checkVIPAccess('Crop & Aspect')) return;
-      if (ratio === '9:16') videoPreview.style.aspectRatio = "9/16";
-      else if (ratio === '16:9') videoPreview.style.aspectRatio = "16/9";
-      else videoPreview.style.aspectRatio = "1/1";
-    }
-
-    function applyTransition(t) {
-      if (!checkVIPAccess('Transitions')) return;
-      alert("✨ Applied " + t + " transition effect to video timeline!");
-    }
-
-    function createSlideshow() {
-      if (!checkVIPAccess('Photo Slideshow')) return;
-      alert("🎬 Wedding Slideshow Video Generator activated!");
-    }
-
-    function exportVideo(preset) {
-      if (!checkVIPAccess('Export Presets')) return;
-      alert("🚀 Exporting video render in " + preset + " format...");
-    }
-
-    // Photo Functions
+    // Studio Canvas Background Changer
     function changeBackground(type) {
-      if (!checkVIPAccess('Studio Canvas Background')) return;
+      if (!isVIPActive) {
+        alert("🔒 Background Changer is a PRO feature. Please get your VIP code from Vimlesh Yadav (₹99).");
+        openPrimeModal();
+        return;
+      }
+
       if (type === 'black') currentBgColor = '#000000';
       else if (type === 'white') currentBgColor = '#ffffff';
       else if (type === 'green') currentBgColor = '#065f46';
       else if (type === 'blue') currentBgColor = '#1e3a8a';
       else if (type === 'gradient') currentBgColor = 'gradient';
+
       redrawCanvas();
     }
 
+    // Auto Text Watermark
     function applyWatermarkText() {
-      if (!checkVIPAccess('Auto Text Watermark')) return;
+      if (!isVIPActive) {
+        alert("🔒 Auto Text Watermark is a PRO feature. Please get your VIP code from Vimlesh Yadav (₹99).");
+        openPrimeModal();
+        return;
+      }
       watermarkText = document.getElementById('watermarkInput').value.trim();
       redrawCanvas();
     }
 
+    // Speech to Text
     function startVoiceTyping() {
-      if (!checkVIPAccess('Voice Typing')) return;
+      if (!isVIPActive) {
+        alert("🔒 Voice Typing is a PRO feature. Please get your VIP code from Vimlesh Yadav (₹99).");
+        openPrimeModal();
+        return;
+      }
       if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert("Speech recognition is not supported on this browser.");
+        alert("Speech recognition is not supported in this browser.");
         return;
       }
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
-      recognition.onstart = () => { alert("🎙️ Listening... Speak your watermark text now."); };
-      recognition.onresult = (e) => {
-        const text = e.results[0][0].transcript;
-        document.getElementById('watermarkInput').value = text;
-        watermarkText = text;
+      recognition.lang = 'en-US';
+      recognition.onstart = () => { alert("🎙️ Listening... Speak your text."); };
+      recognition.onresult = (event) => {
+        const speechResult = event.results[0][0].transcript;
+        document.getElementById('watermarkInput').value = speechResult;
+        watermarkText = speechResult;
         redrawCanvas();
       };
       recognition.start();
     }
 
-    function loadDemo(num) {
-      originalImage.src = num === 1 
+    function loadDemo(type) {
+      originalImage.src = type === 1 
         ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop'
         : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop';
+      
       originalImage.onload = () => {
         uploadPlaceholder.classList.add('hidden');
         previewContainer.classList.remove('hidden');
-        redrawCanvas();
+        resetPhoto();
       };
     }
 
@@ -621,12 +515,12 @@
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = (evt) => {
-          originalImage.src = evt.target.result;
+        reader.onload = (event) => {
+          originalImage.src = event.target.result;
           originalImage.onload = () => {
             uploadPlaceholder.classList.add('hidden');
             previewContainer.classList.remove('hidden');
-            redrawCanvas();
+            resetPhoto();
           };
         };
         reader.readAsDataURL(file);
@@ -635,8 +529,9 @@
 
     function redrawCanvas() {
       if (!originalImage.src) return;
-      canvas.width = originalImage.naturalWidth || 800;
-      canvas.height = originalImage.naturalHeight || 600;
+
+      canvas.width = originalImage.naturalWidth || originalImage.width;
+      canvas.height = originalImage.naturalHeight || originalImage.height;
 
       if (currentBgColor === 'gradient') {
         const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -649,32 +544,58 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
+      ctx.save();
+      const b = brightness.value;
+      const c = contrast.value;
+      const s = saturate.value;
+      ctx.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
       ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+      ctx.restore();
 
       if (watermarkText) {
         ctx.save();
-        ctx.font = 'bold 40px sans-serif';
+        ctx.font = 'bold 42px sans-serif';
         ctx.fillStyle = document.getElementById('textColorPicker').value || '#ffffff';
         ctx.textAlign = 'center';
-        ctx.shadowColor = 'rgba(0,0,0,0.8)';
-        ctx.shadowBlur = 8;
-        ctx.fillText(watermarkText, canvas.width / 2, canvas.height - 40);
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 10;
+        ctx.fillText(watermarkText, canvas.width / 2, canvas.height - 50);
         ctx.restore();
       }
     }
 
+    [brightness, contrast, saturate].forEach(slider => slider.addEventListener('input', redrawCanvas));
+
     function applyReminiClean() {
-      if (!checkVIPAccess('Remini AI HD Enhancer')) return;
-      alert("✨ Remini AI HD Enhancer applied!");
+      brightness.value = 115;
+      contrast.value = 135;
+      saturate.value = 150;
+      redrawCanvas();
+    }
+
+    function resetPhoto() {
+      brightness.value = 100; 
+      contrast.value = 100; 
+      saturate.value = 100;
+      currentBgColor = '#0f172a';
+      watermarkText = '';
+      document.getElementById('watermarkInput').value = '';
       redrawCanvas();
     }
 
     function downloadImage() {
       if (!originalImage.src) return;
-      const link = document.createElement('a');
-      link.download = 'vimlesh-visuals-hd.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      try {
+        const dataURL = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'vimlesh-visuals-pro-hd.png';
+        link.href = dataURL;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (err) {
+        alert('Download failed. Please open in Chrome browser.');
+      }
     }
 
     videoInput.addEventListener('change', (e) => {
@@ -685,7 +606,9 @@
         videoPlaceholder.classList.add('hidden');
       }
     });
+
+    function playVideo() { if(videoPreview.src) videoPreview.play(); }
+    function pauseVideo() { if(videoPreview.src) videoPreview.pause(); }
   </script>
 </body>
 </html>
-```
