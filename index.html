@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RAO STUDIO - Premium Photo Editor & Enhancer</title>
+  <title>RAO STUDIO - Premium Photo Editor & Background Studio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
@@ -33,33 +33,21 @@
   <!-- Main Workspace -->
   <main class="max-w-4xl mx-auto p-4 w-full space-y-6 pb-20">
     
-    <!-- APP DOWNLOAD BANNER -->
-    <div class="bg-gradient-to-r from-purple-900/60 via-pink-900/50 to-slate-900 border border-pink-500/30 rounded-3xl p-4 md:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
-      <div class="flex items-center gap-3.5 text-center sm:text-left">
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white text-xl shadow-lg shrink-0 mx-auto">
-          <i class="fa-solid fa-mobile-screen-button"></i>
-        </div>
-        <div>
-          <h2 class="text-sm font-bold text-white">Get RAO STUDIO App</h2>
-          <p class="text-xs text-slate-300">Fast editing & offline access. Download official Android App!</p>
-        </div>
-      </div>
-      <a href="#" id="appDownloadBtn" class="bg-white hover:bg-slate-100 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs shadow-lg flex items-center gap-2 shrink-0 transition">
-        <i class="fa-solid fa-download text-pink-600"></i> Download App
-      </a>
-    </div>
-
-    <!-- Preview Box -->
+    <!-- Preview Box with Dynamic Background Container -->
     <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-6">
       
-      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden">
+      <!-- Background Wrapper Box (Color change hoga yahan) -->
+      <div id="bgCanvasWrapper" class="bg-slate-900 rounded-2xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[350px] relative overflow-hidden transition-all duration-300">
+        
         <div id="uploadPlaceholder" class="text-center space-y-3 py-10 cursor-pointer" onclick="document.getElementById('imageInput').click()">
-          <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto text-pink-500 text-2xl">
+          <div class="w-16 h-16 rounded-2xl bg-slate-800/80 flex items-center justify-center mx-auto text-pink-500 text-2xl shadow-inner">
             <i class="fa-solid fa-cloud-arrow-up"></i>
           </div>
           <p class="text-sm text-slate-300 font-medium">Tap to upload your photo</p>
+          <p class="text-xs text-slate-500">Edit lighting, background colors & effects</p>
         </div>
-        <img id="imagePreview" class="hidden max-h-[450px] w-auto object-contain rounded-xl shadow-lg">
+
+        <img id="imagePreview" class="hidden max-h-[450px] w-auto object-contain rounded-xl shadow-2xl transition-all duration-75">
         <canvas id="photoCanvas" class="hidden"></canvas>
         <input type="file" id="imageInput" accept="image/*" class="hidden">
       </div>
@@ -78,11 +66,26 @@
     <!-- Controls Grid -->
     <div id="toolsPanel" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      <!-- Adjustments -->
+      <!-- Adjustments & Background Colors -->
       <div class="glass-card rounded-3xl p-5 space-y-4">
-        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">Adjustments</h3>
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">Lighting & Background Colors</h3>
         
-        <div class="space-y-1">
+        <!-- Background Color Picker Options -->
+        <div class="space-y-1.5 pt-1">
+          <label class="text-xs text-slate-400 font-medium block">Studio Background Color:</label>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="setBgColor('#0f172a')" class="w-7 h-7 rounded-full bg-slate-900 border-2 border-slate-700 hover:scale-110 transition" title="Default Dark"></button>
+            <button onclick="setBgColor('#ffffff')" class="w-7 h-7 rounded-full bg-white border-2 border-slate-400 hover:scale-110 transition" title="Pure White"></button>
+            <button onclick="setBgColor('#000000')" class="w-7 h-7 rounded-full bg-black border-2 border-slate-800 hover:scale-110 transition" title="Jet Black"></button>
+            <button onclick="setBgColor('#facc15')" class="w-7 h-7 rounded-full bg-yellow-400 border-2 border-yellow-600 hover:scale-110 transition" title="Bright Yellow"></button>
+            <button onclick="setBgColor('#ef4444')" class="w-7 h-7 rounded-full bg-red-500 border-2 border-red-700 hover:scale-110 transition" title="Vibrant Red"></button>
+            <button onclick="setBgColor('#3b82f6')" class="w-7 h-7 rounded-full bg-blue-500 border-2 border-blue-700 hover:scale-110 transition" title="Royal Blue"></button>
+            <button onclick="setBgColor('#10b981')" class="w-7 h-7 rounded-full bg-emerald-500 border-2 border-emerald-700 hover:scale-110 transition" title="Emerald Green"></button>
+            <button onclick="setBgColor('#ec4899')" class="w-7 h-7 rounded-full bg-pink-500 border-2 border-pink-700 hover:scale-110 transition" title="Neon Pink"></button>
+          </div>
+        </div>
+
+        <div class="space-y-1 pt-2">
           <div class="flex justify-between text-xs text-slate-400"><span>Brightness</span><span id="valBrightness">100%</span></div>
           <input type="range" id="brightness" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
         </div>
@@ -98,27 +101,33 @@
         </div>
 
         <div class="space-y-1">
-          <div class="flex justify-between text-xs text-slate-400"><span>Blur</span><span id="valBlur">0px</span></div>
+          <div class="flex justify-between text-xs text-slate-400"><span>Blur Effect</span><span id="valBlur">0px</span></div>
           <input type="range" id="blur" min="0" max="20" value="0" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
         </div>
       </div>
 
-      <!-- AI Enhance & Filters -->
+      <!-- AI Enhance & Pro Effects -->
       <div class="glass-card rounded-3xl p-5 space-y-4">
-        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">AI Photo Enhancer & Effects</h3>
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">AI Photo Clean & Pro Effects</h3>
         
-        <!-- Photoshop Style AI Clean Button -->
         <button onclick="applyAIEnhance()" class="w-full bg-gradient-to-r from-amber-500 to-pink-600 hover:opacity-90 text-white font-bold p-3 rounded-xl text-xs shadow-lg flex items-center justify-center gap-2 transition">
           <i class="fa-solid fa-wand-magic-sparkles"></i> AI Magic Clean & Clear (HD)
         </button>
 
-        <div class="grid grid-cols-2 gap-2 pt-1">
-          <button onclick="applyFilter('vivid')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs font-bold text-pink-400 border border-slate-700">Vivid</button>
-          <button onclick="applyFilter('bw')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs font-bold text-slate-300 border border-slate-700">B & W</button>
+        <div class="space-y-2 pt-1">
+          <span class="text-xs text-slate-400 font-medium">Pro Filters</span>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="applyFilter('vivid')" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-bold text-pink-400 border border-slate-700">Vivid Look</button>
+            <button onclick="applyFilter('bw')" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-bold text-slate-300 border border-slate-700">Black & White</button>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="rotateImage()" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs text-slate-300 border border-slate-700">Rotate 90°</button>
-          <button onclick="flipImage()" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl text-xs text-slate-300 border border-slate-700">Flip Side</button>
+
+        <div class="space-y-2 pt-1">
+          <span class="text-xs text-slate-400 font-medium">Transform</span>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="rotateImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs text-slate-300 border border-slate-700">Rotate 90°</button>
+            <button onclick="flipImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs text-slate-300 border border-slate-700">Flip Side</button>
+          </div>
         </div>
       </div>
 
@@ -138,6 +147,7 @@
     const uploadPlaceholder = document.getElementById('uploadPlaceholder');
     const actionControls = document.getElementById('actionControls');
     const toolsPanel = document.getElementById('toolsPanel');
+    const bgCanvasWrapper = document.getElementById('bgCanvasWrapper');
     const canvas = document.getElementById('photoCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -149,6 +159,7 @@
     let originalImage = new Image();
     let rotation = 0;
     let flipVal = 1;
+    let currentBgColor = '#0f172a';
 
     imageInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
@@ -168,6 +179,11 @@
         reader.readAsDataURL(file);
       }
     });
+
+    function setBgColor(color) {
+      currentBgColor = color;
+      bgCanvasWrapper.style.backgroundColor = color;
+    }
 
     function updateLivePreview() {
       if (!originalImage.src) return;
@@ -207,7 +223,6 @@
     }
 
     function applyAIEnhance() {
-      // Photoshop style auto enhance settings for crystal clear photo cleaning
       brightness.value = 108;
       contrast.value = 135;
       saturate.value = 140;
@@ -218,6 +233,7 @@
     function resetAll() {
       brightness.value = 100; contrast.value = 100; saturate.value = 100; blur.value = 0;
       rotation = 0; flipVal = 1;
+      setBgColor('#0f172a');
       updateLivePreview();
     }
 
@@ -228,8 +244,12 @@
       canvas.height = originalImage.naturalHeight || originalImage.height;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Fill background color if user selected custom background color
+      ctx.fillStyle = currentBgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       ctx.save();
-      
       ctx.translate(canvas.width / 2, canvas.height / 2);
       ctx.rotate((rotation * Math.PI) / 180);
       ctx.scale(flipVal, 1);
@@ -254,4 +274,3 @@
   </script>
 </body>
 </html>
-
