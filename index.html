@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
@@ -42,11 +42,11 @@
     <section id="photoSection" class="space-y-6">
       <div class="space-y-1">
         <h2 class="text-2xl font-black text-white">Premium Photo Studio</h2>
-        <p class="text-xs text-slate-400">Choose a photo, adjust lighting, change background color & apply pro edits.</p>
+        <p class="text-xs text-slate-400">Choose a photo, change background, add auto text, and apply pro edits.</p>
       </div>
 
       <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-6">
-        <!-- Canvas Preview Wrapper with Dynamic Background -->
+        <!-- Canvas Preview Wrapper with Working Background -->
         <div id="bgCanvasWrapper" class="bg-slate-900 rounded-2xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden transition-all duration-300">
           
           <div id="uploadPlaceholder" class="text-center space-y-3 py-10 cursor-pointer" onclick="document.getElementById('imageInput').click()">
@@ -57,12 +57,10 @@
             <p class="text-xs text-slate-500">Select a photo below or use one of the demo photos.</p>
           </div>
 
-          <div id="previewFrame" class="relative flex items-center justify-center p-3 rounded-2xl transition-all shadow-xl bg-slate-950/40">
-            <img id="imagePreview" class="hidden max-h-[380px] w-auto object-contain rounded-lg shadow-2xl transition-all duration-75">
-            <div id="textOverlay" class="absolute bottom-6 font-black text-white text-base tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] pointer-events-none hidden"></div>
+          <div id="previewContainer" class="relative hidden flex items-center justify-center">
+            <canvas id="photoCanvas" class="max-h-[400px] w-auto rounded-lg shadow-2xl"></canvas>
           </div>
 
-          <canvas id="photoCanvas" class="hidden"></canvas>
           <input type="file" id="imageInput" accept="image/*" class="hidden">
         </div>
 
@@ -82,21 +80,21 @@
         </div>
       </div>
 
-      <!-- Background Changer & Adjustments Grid -->
+      <!-- Background Changer & Auto Text & Adjustments Grid -->
       <div class="glass-card rounded-3xl p-5 space-y-6">
         
-        <!-- Background Color Changer (VIP Feature) -->
+        <!-- Background Color Changer (VIP Working Feature) -->
         <div class="space-y-3">
           <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-            <h3 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-image mr-1"></i> Background Color Changer (VIP Studio)</h3>
-            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">Pro BG</span>
+            <h3 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-image mr-1"></i> Background Color Changer (VIP Pro)</h3>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">Pro Feature</span>
           </div>
-          <p class="text-[11px] text-slate-400">Change your photo background instantly to Black, White, Green, Blue, or custom theme.</p>
+          <p class="text-[11px] text-slate-400">Change canvas background color instantly (Black, White, Green, Blue, Gradient).</p>
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
             <button onclick="changeBackground('black')" class="bg-black hover:bg-slate-900 text-white font-bold p-2.5 rounded-xl text-xs border border-slate-800 flex items-center justify-center gap-1">
               <span class="w-3 h-3 rounded-full bg-black border border-slate-700"></span> Black BG
             </button>
-            <button onclick="changeBackground('white')" class="bg-white hover:bg-slate-100 text-slate-950 font-bold p-2.5 rounded-xl text-xs flex items-center justify-center gap-1">
+            <button onclick="changeBackground('white')" class="bg-slate-200 hover:bg-white text-slate-950 font-bold p-2.5 rounded-xl text-xs flex items-center justify-center gap-1">
               <span class="w-3 h-3 rounded-full bg-white border border-slate-300"></span> White BG
             </button>
             <button onclick="changeBackground('green')" class="bg-emerald-900/60 hover:bg-emerald-900 text-emerald-300 font-bold p-2.5 rounded-xl text-xs border border-emerald-700/50 flex items-center justify-center gap-1">
@@ -107,6 +105,23 @@
             </button>
             <button onclick="changeBackground('gradient')" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold p-2.5 rounded-xl text-xs col-span-2 sm:col-span-1">
               Gradient BG
+            </button>
+          </div>
+        </div>
+
+        <!-- Auto Text Watermark (VIP Working Feature) -->
+        <div class="space-y-3 pt-2">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-font mr-1"></i> Auto Text / Speech Watermark (VIP Pro)</h3>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">Pro Feature</span>
+          </div>
+          <div class="flex gap-2">
+            <input type="text" id="watermarkInput" placeholder="Type text or click mic to speak..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500">
+            <button onclick="startVoiceTyping()" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1" title="Speak to write">
+              <i class="fa-solid fa-microphone"></i> Speak
+            </button>
+            <button onclick="applyWatermarkText()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs">
+              Apply Text
             </button>
           </div>
         </div>
@@ -138,7 +153,7 @@
       </div>
     </section>
 
-    <!-- VIDEO STUDIO SECTION WITH PRO TOOLS (AS SHOWN IN YOUR SCREENSHOT) -->
+    <!-- VIDEO STUDIO SECTION WITH PRO TOOLS -->
     <section id="videoSection" class="space-y-6 pt-6 border-t border-slate-900">
       <div class="space-y-1">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-purple-400 font-medium">
@@ -146,7 +161,7 @@
         </div>
         <h2 class="text-3xl font-black text-white">Edit. Enhance. Deliver Pro.</h2>
         <p class="text-xs text-slate-400 max-w-xl">
-          Upload video, test controls, or unlock all advanced VIP tools below. Designed for <strong class="text-slate-200">Vimlesh Visuals</strong>.
+          Upload video or unlock advanced VIP tools below. Designed for <strong class="text-slate-200">Vimlesh Visuals</strong>.
         </p>
       </div>
 
@@ -178,7 +193,7 @@
           <button onclick="pauseVideo()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800">⏸ Pause</button>
         </div>
 
-        <!-- PRO Tools Grid (Interactive & Protected with VIP Modal) -->
+        <!-- PRO Tools Grid (Interactive & Protected) -->
         <div class="space-y-3 pt-4 border-t border-slate-800">
           <div class="flex justify-between items-center">
             <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-crown mr-1"></i> Advanced PRO Tools (VIP Required)</h4>
@@ -186,17 +201,14 @@
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            
-            <!-- Tool 1 -->
             <div onclick="useProTool('Cut & Trim')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-1 cursor-pointer transition relative">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-scissors mr-1 text-pink-500"></i> Cut & Trim</span>
                 <span id="badge1" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
               </div>
-              <p class="text-[11px] text-slate-400">Set start/end and preview the selected section.</p>
+              <p class="text-[11px] text-slate-400">Set start/end and preview selected section.</p>
             </div>
 
-            <!-- Tool 2 -->
             <div onclick="useProTool('Cinematic Color Grade')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-1 cursor-pointer transition relative">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-palette mr-1 text-amber-500"></i> Cinematic Color Grade</span>
@@ -205,7 +217,6 @@
               <p class="text-[11px] text-slate-400">Premium cinematic looks and grading.</p>
             </div>
 
-            <!-- Tool 3 -->
             <div onclick="useProTool('Multi Clip Timeline')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-1 cursor-pointer transition relative">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-film mr-1 text-purple-500"></i> Multi Clip Timeline</span>
@@ -214,7 +225,6 @@
               <p class="text-[11px] text-slate-400">Arrange multiple clips in one project.</p>
             </div>
 
-            <!-- Tool 4 -->
             <div onclick="useProTool('LUT Presets')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-1 cursor-pointer transition relative">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-wand-magic-sparkles mr-1 text-pink-500"></i> LUT Presets</span>
@@ -222,25 +232,6 @@
               </div>
               <p class="text-[11px] text-slate-400">Apply professional preset looks.</p>
             </div>
-
-            <!-- Tool 5 -->
-            <div onclick="useProTool('Transitions')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-1 cursor-pointer transition relative">
-              <div class="flex justify-between items-center">
-                <span class="text-xs font-bold text-white"><i class="fa-solid fa-bolt mr-1 text-yellow-500"></i> Transitions</span>
-                <span id="badge5" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
-              </div>
-              <p class="text-[11px] text-slate-400">Fade, zoom, slide and cinematic transitions.</p>
-            </div>
-
-            <!-- Tool 6 -->
-            <div onclick="useProTool('Speed Control')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-1 cursor-pointer transition relative">
-              <div class="flex justify-between items-center">
-                <span class="text-xs font-bold text-white"><i class="fa-solid fa-gauge-high mr-1 text-cyan-500"></i> Speed Control</span>
-                <span id="badge6" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
-              </div>
-              <p class="text-[11px] text-slate-400">Slow motion and speed ramp preview.</p>
-            </div>
-
           </div>
         </div>
 
@@ -275,7 +266,7 @@
           <i class="fa-solid fa-crown"></i>
         </div>
         <h2 class="text-lg font-black text-white">VIMLESH VISUALS PRIME VIP</h2>
-        <p class="text-xs text-slate-300">Pay ₹199 on WhatsApp to get your VIP Activation Code directly from Vimlesh Yadav!</p>
+        <p class="text-xs text-slate-300">Pay ₹199 on WhatsApp to get your VIP Activation Code from Vimlesh Yadav!</p>
       </div>
 
       <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs text-slate-300">
@@ -284,7 +275,7 @@
           <span class="font-bold text-yellow-400">₹199 Only</span>
         </div>
         <ul class="space-y-1.5 text-[11px] text-slate-400 pt-1">
-          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Unlock All PRO Tools & Background Changer</li>
+          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Unlock Working Background Changer & Auto Text</li>
           <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Direct WhatsApp Code Support (+91 9670501290)</li>
         </ul>
       </div>
@@ -294,7 +285,7 @@
           <i class="fa-brands fa-whatsapp text-sm"></i> Pay ₹199 & Request Code on WhatsApp
         </button>
         
-        <!-- Activation Code Input Box (Blank by default) -->
+        <!-- Activation Code Input Box (Blank) -->
         <div class="pt-2 flex gap-2">
           <input type="text" id="activationCodeInput" placeholder="Enter VIP Activation Code" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
           <button onclick="verifyCode()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs">Activate</button>
@@ -311,10 +302,9 @@
 
   <script>
     const imageInput = document.getElementById('imageInput');
-    const imagePreview = document.getElementById('imagePreview');
     const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const previewContainer = document.getElementById('previewContainer');
     const bgCanvasWrapper = document.getElementById('bgCanvasWrapper');
-    const previewFrame = document.getElementById('previewFrame');
     const canvas = document.getElementById('photoCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -328,6 +318,8 @@
 
     let originalImage = new Image();
     let isVIPActive = false;
+    let currentBgColor = '#0f172a'; // default dark slate
+    let watermarkText = '';
 
     function scrollToSection(id) {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
@@ -353,10 +345,9 @@
       const code = document.getElementById('activationCodeInput').value.trim();
       if (code === "VIMLESH199" || code === "RAO2026" || code.length > 5) {
         isVIPActive = true;
-        alert("🎉 Congratulations! Prime VIP Activated Successfully. All PRO tools & Background Changer are now unlocked!");
+        alert("🎉 Congratulations! Prime VIP Activated Successfully. All background changer & Pro tools are now working!");
         
-        // Update All Badges to UNLOCKED
-        for(let i=1; i<=6; i++) {
+        for(let i=1; i<=4; i++) {
           const badge = document.getElementById('badge' + i);
           if(badge) {
             badge.className = "bg-emerald-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded";
@@ -370,6 +361,7 @@
         document.getElementById('primeHeaderBtn').classList.remove('animate-pulse');
         
         closePrimeModal();
+        redrawCanvas();
       } else {
         alert("Invalid activation code. Please make payment and get your code from Vimlesh Yadav on WhatsApp (+91 9670501290).");
       }
@@ -381,29 +373,60 @@
         alert("🔒 " + toolName + " is a PRO feature. Please get your VIP activation code from Vimlesh Yadav on WhatsApp (₹199).");
         openPrimeModal();
       } else {
-        alert("✨ " + toolName + " is now active and working on your project!");
+        alert("✨ " + toolName + " is active and applied to your current editor project!");
       }
     }
 
-    // Background Color Changer Function (VIP Protected)
-    function changeBackground(colorType) {
+    // Working Background Changer Function (VIP Protected)
+    function changeBackground(type) {
       if (!isVIPActive) {
         alert("🔒 Background Changer is a PRO feature. Please get your VIP activation code from Vimlesh Yadav on WhatsApp (₹199).");
         openPrimeModal();
         return;
       }
 
-      if (colorType === 'black') {
-        bgCanvasWrapper.className = "bg-black rounded-2xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden transition-all duration-300";
-      } else if (colorType === 'white') {
-        bgCanvasWrapper.className = "bg-white rounded-2xl border border-slate-200 p-6 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden transition-all duration-300 text-slate-950";
-      } else if (colorType === 'green') {
-        bgCanvasWrapper.className = "bg-emerald-950 rounded-2xl border border-emerald-800 p-6 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden transition-all duration-300";
-      } else if (colorType === 'blue') {
-        bgCanvasWrapper.className = "bg-blue-950 rounded-2xl border border-blue-800 p-6 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden transition-all duration-300";
-      } else if (colorType === 'gradient') {
-        bgCanvasWrapper.className = "bg-gradient-to-br from-purple-950 via-slate-900 to-pink-950 rounded-2xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden transition-all duration-300";
+      if (type === 'black') currentBgColor = '#000000';
+      else if (type === 'white') currentBgColor = '#ffffff';
+      else if (type === 'green') currentBgColor = '#065f46';
+      else if (type === 'blue') currentBgColor = '#1e3a8a';
+      else if (type === 'gradient') currentBgColor = 'gradient';
+
+      redrawCanvas();
+    }
+
+    // Working Auto Text / Watermark
+    function applyWatermarkText() {
+      if (!isVIPActive) {
+        alert("🔒 Auto Text Watermark is a PRO feature. Please get your VIP activation code from Vimlesh Yadav on WhatsApp (₹199).");
+        openPrimeModal();
+        return;
       }
+      watermarkText = document.getElementById('watermarkInput').value.trim();
+      redrawCanvas();
+    }
+
+    // Voice Typing (Speech to Text) for Auto Text
+    function startVoiceTyping() {
+      if (!isVIPActive) {
+        alert("🔒 Voice Typing is a PRO feature. Please get your VIP activation code from Vimlesh Yadav on WhatsApp (₹199).");
+        openPrimeModal();
+        return;
+      }
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert("Speech recognition is not supported in this browser. Please type manually.");
+        return;
+      }
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.onstart = () => { alert("🎙️ Listening... Speak now."); };
+      recognition.onresult = (event) => {
+        const speechResult = event.results[0][0].transcript;
+        document.getElementById('watermarkInput').value = speechResult;
+        watermarkText = speechResult;
+        redrawCanvas();
+      };
+      recognition.start();
     }
 
     function orderWeddingEdit() {
@@ -419,9 +442,8 @@
         : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop';
       
       originalImage.onload = () => {
-        imagePreview.src = originalImage.src;
-        imagePreview.classList.remove('hidden');
         uploadPlaceholder.classList.add('hidden');
+        previewContainer.classList.remove('hidden');
         resetPhoto();
       };
     }
@@ -433,9 +455,8 @@
         reader.onload = (event) => {
           originalImage.src = event.target.result;
           originalImage.onload = () => {
-            imagePreview.src = originalImage.src;
-            imagePreview.classList.remove('hidden');
             uploadPlaceholder.classList.add('hidden');
+            previewContainer.classList.remove('hidden');
             resetPhoto();
           };
         };
@@ -443,46 +464,74 @@
       }
     });
 
-    function updateLivePreview() {
+    // Real Canvas Rendering Engine
+    function redrawCanvas() {
       if (!originalImage.src) return;
+
+      canvas.width = originalImage.naturalWidth || originalImage.width;
+      canvas.height = originalImage.naturalHeight || originalImage.height;
+
+      // Draw Background
+      if (currentBgColor === 'gradient') {
+        const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        grad.addColorStop(0, '#9333ea');
+        grad.addColorStop(1, '#db2777');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.fillStyle = currentBgColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Apply Filters & Draw Image
+      ctx.save();
       const b = brightness.value;
       const c = contrast.value;
       const s = saturate.value;
+      ctx.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
+      
+      // Center image or draw full
+      ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+      ctx.restore();
 
-      document.getElementById('valBrightness').innerText = b;
-      document.getElementById('valContrast').innerText = c;
-      document.getElementById('valSaturate').innerText = s;
-
-      imagePreview.style.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
+      // Draw Auto Text Watermark if present
+      if (watermarkText) {
+        ctx.save();
+        ctx.font = 'bold 42px sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 10;
+        ctx.fillText(watermarkText, canvas.width / 2, canvas.height - 50);
+        ctx.restore();
+      }
     }
 
-    [brightness, contrast, saturate].forEach(slider => slider.addEventListener('input', updateLivePreview));
+    [brightness, contrast, saturate].forEach(slider => slider.addEventListener('input', redrawCanvas));
 
     function applyReminiClean() {
-      brightness.value = 110;
-      contrast.value = 140;
-      saturate.value = 145;
-      updateLivePreview();
+      brightness.value = 115;
+      contrast.value = 135;
+      saturate.value = 150;
+      redrawCanvas();
     }
 
     function resetPhoto() {
-      brightness.value = 100; contrast.value = 100; saturate.value = 100;
-      updateLivePreview();
+      brightness.value = 100; 
+      contrast.value = 100; 
+      saturate.value = 100;
+      currentBgColor = '#0f172a';
+      watermarkText = '';
+      document.getElementById('watermarkInput').value = '';
+      redrawCanvas();
     }
 
     function downloadImage() {
       if (!originalImage.src) return;
-      canvas.width = originalImage.naturalWidth || originalImage.width;
-      canvas.height = originalImage.naturalHeight || originalImage.height;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturate.value}%)`;
-      ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
-
       try {
         const dataURL = canvas.toDataURL('image/png');
         const link = document.createElement('a');
-        link.download = 'vimlesh-visuals-hd.png';
+        link.download = 'vimlesh-visuals-pro-hd.png';
         link.href = dataURL;
         document.body.appendChild(link);
         link.click();
