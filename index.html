@@ -83,7 +83,7 @@
       <!-- Photo Controls Grid -->
       <div class="glass-card rounded-3xl p-5 space-y-6">
         
-        <!-- Background Color Changer (VIP Working Feature) -->
+        <!-- Background Color Changer -->
         <div class="space-y-3">
           <div class="flex justify-between items-center border-b border-slate-800 pb-2">
             <h3 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-image mr-1"></i> Studio Canvas Background (VIP Pro)</h3>
@@ -108,7 +108,7 @@
           </div>
         </div>
 
-        <!-- Auto Text Watermark with Color Selection -->
+        <!-- Auto Text Watermark -->
         <div class="space-y-3 pt-2">
           <div class="flex justify-between items-center border-b border-slate-800 pb-2">
             <h3 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-font mr-1"></i> Auto Text & Voice Typing (VIP Pro)</h3>
@@ -153,7 +153,7 @@
       </div>
     </section>
 
-    <!-- VIDEO STUDIO SECTION WITH REAL WORKING EDITING TOOLKIT -->
+    <!-- VIDEO STUDIO SECTION -->
     <section id="videoSection" class="space-y-6 pt-6 border-t border-slate-900">
       <div class="space-y-1">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-purple-400 font-medium">
@@ -161,7 +161,7 @@
         </div>
         <h2 class="text-3xl font-black text-white">Edit. Enhance. Deliver Pro.</h2>
         <p class="text-xs text-slate-400 max-w-xl">
-          Upload video and use real-time Trim, LUT Filters, and Speed Ramp controls.
+          Upload video and use real-time Trim, LUT Filters, Speed Ramp, and Captioning controls.
         </p>
       </div>
 
@@ -173,9 +173,12 @@
           <span id="modeBadge" class="bg-amber-500 text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase">Free Mode</span>
         </div>
 
-        <!-- Video Player Display -->
-        <div id="videoContainer" class="bg-slate-900 rounded-2xl border border-slate-800 p-4 flex flex-col items-center justify-center min-h-[320px] transition-all">
-          <video id="videoPreview" controls class="hidden max-h-[380px] w-auto object-contain rounded-xl shadow-2xl"></video>
+        <!-- Video Player Display with Video Overlay Text -->
+        <div id="videoContainer" class="bg-slate-900 rounded-2xl border border-slate-800 p-4 flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden transition-all">
+          <div class="relative flex items-center justify-center w-full">
+            <video id="videoPreview" controls class="hidden max-h-[380px] w-auto object-contain rounded-xl shadow-2xl"></video>
+            <div id="videoTextOverlay" class="absolute bottom-10 text-white font-black text-lg tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] hidden pointer-events-none"></div>
+          </div>
           
           <div id="videoPlaceholder" class="text-center space-y-2 py-10 cursor-pointer" onclick="document.getElementById('videoInput').click()">
             <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto text-pink-500 text-2xl">
@@ -187,24 +190,79 @@
           <input type="file" id="videoInput" accept="video/*" class="hidden">
         </div>
 
-        <!-- Video Basic Playback Controls -->
+        <!-- Video Playback Controls -->
         <div class="flex flex-wrap items-center justify-center gap-2.5">
           <button onclick="document.getElementById('videoInput').click()" class="bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800">📁 Choose Video</button>
           <button onclick="playVideo()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800">▶ Play</button>
           <button onclick="pauseVideo()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-800">⏸ Pause</button>
         </div>
 
-        <!-- ALL 10 PRO VIDEO TOOLS -->
+        <!-- PRO VIDEO EDITING CONTROL PANELS (Toggled Live upon Tool Click) -->
+        <div id="activeEditorBox" class="bg-slate-900/90 p-5 rounded-2xl border border-amber-500/30 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h4 id="activeToolTitle" class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-sliders"></i> Active Tool Controls
+            </h4>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded">LIVE EDIT ENGINE</span>
+          </div>
+
+          <!-- Control 1: Cut & Trim Panel -->
+          <div id="panelTrim" class="space-y-3">
+            <p class="text-xs text-slate-300 font-bold"><i class="fa-solid fa-scissors text-pink-500 mr-1"></i> Video Cut & Loop Trimmer</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-400">
+              <div>
+                <label class="flex justify-between"><span>Start Time:</span><span id="valStart" class="text-amber-400 font-bold">0s</span></label>
+                <input type="range" id="trimStart" min="0" max="100" value="0" oninput="updateTrim()" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+              </div>
+              <div>
+                <label class="flex justify-between"><span>End Time:</span><span id="valEnd" class="text-amber-400 font-bold">100s</span></label>
+                <input type="range" id="trimEnd" min="0" max="100" value="100" oninput="updateTrim()" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+              </div>
+            </div>
+          </div>
+
+          <!-- Control 2: Color Grade & LUT Filters -->
+          <div id="panelLUT" class="space-y-3">
+            <p class="text-xs text-slate-300 font-bold"><i class="fa-solid fa-palette text-amber-400 mr-1"></i> Cinematic Color Presets</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button onclick="applyLUT('none')" class="bg-slate-950 hover:bg-slate-800 text-slate-300 p-2.5 rounded-xl text-xs border border-slate-800 font-bold">Normal</button>
+              <button onclick="applyLUT('teal')" class="bg-slate-950 hover:bg-slate-800 text-cyan-400 p-2.5 rounded-xl text-xs border border-slate-800 font-bold">Teal & Orange</button>
+              <button onclick="applyLUT('golden')" class="bg-slate-950 hover:bg-slate-800 text-amber-300 p-2.5 rounded-xl text-xs border border-slate-800 font-bold">Golden Warm</button>
+              <button onclick="applyLUT('noir')" class="bg-slate-950 hover:bg-slate-800 text-slate-400 p-2.5 rounded-xl text-xs border border-slate-800 font-bold">Film Noir B&W</button>
+            </div>
+          </div>
+
+          <!-- Control 3: Speed Ramp -->
+          <div id="panelSpeed" class="space-y-3">
+            <p class="text-xs text-slate-300 font-bold"><i class="fa-solid fa-gauge-high text-pink-400 mr-1"></i> Playback Speed Ramp</p>
+            <div class="grid grid-cols-4 gap-2">
+              <button onclick="applySpeed(0.5)" class="bg-slate-950 hover:bg-slate-800 text-slate-200 p-2.5 rounded-xl text-xs border border-slate-800 font-bold">0.5x Slow</button>
+              <button onclick="applySpeed(1.0)" class="bg-slate-950 hover:bg-slate-800 text-slate-200 p-2.5 rounded-xl text-xs border border-slate-800 font-bold">1.0x Normal</button>
+              <button onclick="applySpeed(1.5)" class="bg-slate-950 hover:bg-slate-800 text-slate-200 p-2.5 rounded-xl text-xs border border-slate-800 font-bold">1.5x Fast</button>
+              <button onclick="applySpeed(2.0)" class="bg-slate-950 hover:bg-slate-800 text-slate-200 p-2.5 rounded-xl text-xs border border-slate-800 font-bold">2.0x Fast</button>
+            </div>
+          </div>
+
+          <!-- Control 4: Text & Captions -->
+          <div id="panelText" class="space-y-3">
+            <p class="text-xs text-slate-300 font-bold"><i class="fa-solid fa-font text-emerald-400 mr-1"></i> Video Title / Caption Overlay</p>
+            <div class="flex gap-2">
+              <input type="text" id="videoCaptionInput" placeholder="Type video caption..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+              <button onclick="applyVideoCaption()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs">Add Caption</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ALL 10 PRO VIDEO TOOLS LIST -->
         <div class="space-y-4 pt-4 border-t border-slate-800">
           <div class="flex justify-between items-center">
-            <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-crown mr-1"></i> Advanced PRO Video Tools (VIP Unlock @ ₹99)</h4>
-            <button onclick="openPrimeModal()" class="text-[11px] text-pink-400 font-bold hover:underline">Unlock All VIP</button>
+            <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-crown mr-1"></i> Select PRO Video Tool Below</h4>
+            <button onclick="openPrimeModal()" class="text-[11px] text-pink-400 font-bold hover:underline">VIP Status</button>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             
-            <!-- 1. Cut & Trim -->
-            <div onclick="checkVIPAccess('Cut & Trim')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Cut & Trim')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-scissors text-pink-500 mr-1.5"></i> Cut & Trim</span>
                 <span id="badge1" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -212,8 +270,7 @@
               <p class="text-[11px] text-slate-400">Set start/end time and loop preview selected section.</p>
             </div>
 
-            <!-- 2. Cinematic Color Grade -->
-            <div onclick="checkVIPAccess('Cinematic Color Grade')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Cinematic Color Grade')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-palette text-amber-400 mr-1.5"></i> Cinematic Color Grade</span>
                 <span id="badge2" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -221,8 +278,7 @@
               <p class="text-[11px] text-slate-400">Premium cinematic lighting and color grading styles.</p>
             </div>
 
-            <!-- 3. Multi Clip Timeline -->
-            <div onclick="checkVIPAccess('Multi Clip Timeline')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Multi Clip Timeline')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-film text-purple-400 mr-1.5"></i> Multi Clip Timeline</span>
                 <span id="badge3" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -230,8 +286,7 @@
               <p class="text-[11px] text-slate-400">Arrange multiple video clips in one project sequence.</p>
             </div>
 
-            <!-- 4. LUT Presets -->
-            <div onclick="checkVIPAccess('LUT Presets')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('LUT Presets')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-wand-magic-sparkles text-cyan-400 mr-1.5"></i> LUT Presets</span>
                 <span id="badge4" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -239,8 +294,7 @@
               <p class="text-[11px] text-slate-400">Apply Hollywood style color look presets.</p>
             </div>
 
-            <!-- 5. Transitions -->
-            <div onclick="checkVIPAccess('Transitions')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Transitions')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-bolt text-yellow-400 mr-1.5"></i> Transitions</span>
                 <span id="badge5" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -248,8 +302,7 @@
               <p class="text-[11px] text-slate-400">Fade, zoom, slide and cinematic transition FX.</p>
             </div>
 
-            <!-- 6. Text & Titles -->
-            <div onclick="checkVIPAccess('Text & Titles')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Text & Titles')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-font text-emerald-400 mr-1.5"></i> Text & Titles</span>
                 <span id="badge6" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -257,8 +310,7 @@
               <p class="text-[11px] text-slate-400">Add titles and celebration captions to your video.</p>
             </div>
 
-            <!-- 7. Speed Control -->
-            <div onclick="checkVIPAccess('Speed Control')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Speed Control')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-gauge-high text-pink-400 mr-1.5"></i> Speed Control</span>
                 <span id="badge7" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -266,8 +318,7 @@
               <p class="text-[11px] text-slate-400">Slow motion (0.5x) and speed ramp preview (2.0x).</p>
             </div>
 
-            <!-- 8. Audio Mixer -->
-            <div onclick="checkVIPAccess('Audio Mixer')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Audio Mixer')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-sliders text-purple-400 mr-1.5"></i> Audio Mixer</span>
                 <span id="badge8" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -275,8 +326,7 @@
               <p class="text-[11px] text-slate-400">Volume, fade and background music mixing controls.</p>
             </div>
 
-            <!-- 9. Noise Reduction -->
-            <div onclick="checkVIPAccess('Noise Reduction')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Noise Reduction')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-microphone-slash text-cyan-400 mr-1.5"></i> Noise Reduction</span>
                 <span id="badge9" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -284,8 +334,7 @@
               <p class="text-[11px] text-slate-400">Clean dialogue and remove background noise.</p>
             </div>
 
-            <!-- 10. Crop & Aspect Ratio -->
-            <div onclick="checkVIPAccess('Crop & Aspect Ratio')" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer">
+            <div onclick="openTool('Crop & Aspect Ratio')" class="bg-slate-900 hover:bg-slate-800/90 p-4 rounded-2xl border border-slate-800 space-y-2 cursor-pointer transition">
               <div class="flex justify-between items-center">
                 <span class="text-xs font-bold text-white"><i class="fa-solid fa-crop-simple text-amber-300 mr-1.5"></i> Crop & Aspect</span>
                 <span id="badge10" class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded"><i class="fa-solid fa-lock"></i> PRO</span>
@@ -296,7 +345,7 @@
           </div>
         </div>
 
-        <!-- Pro Paid Custom Orders Section -->
+        <!-- Pro Services -->
         <div class="space-y-3 pt-4 border-t border-slate-800">
           <h4 class="text-xs font-bold text-amber-400">💰 Custom Video Editing Orders</h4>
           <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -347,7 +396,6 @@
           <i class="fa-brands fa-whatsapp text-sm"></i> Pay ₹99 & Request Code on WhatsApp
         </button>
         
-        <!-- Code Input Field (Clean & Blank) -->
         <div class="pt-2 flex gap-2">
           <input type="text" id="activationCodeInput" placeholder="Enter VIP Activation Code" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
           <button onclick="verifyCode()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs">Activate</button>
@@ -372,6 +420,7 @@
     const videoInput = document.getElementById('videoInput');
     const videoPreview = document.getElementById('videoPreview');
     const videoPlaceholder = document.getElementById('videoPlaceholder');
+    const videoTextOverlay = document.getElementById('videoTextOverlay');
 
     const brightness = document.getElementById('brightness');
     const contrast = document.getElementById('contrast');
@@ -394,7 +443,6 @@
       document.getElementById('primeModal').classList.add('hidden');
     }
 
-    // Direct WhatsApp Payment Links
     function upgradeViaWhatsApp() {
       const phoneNumber = "919670501290";
       const message = "Hello Vimlesh Yadav, I want to pay ₹99 for VIMLESH VISUALS Prime VIP. Please provide me my activation code.";
@@ -409,12 +457,11 @@
       window.open(url, '_blank');
     }
 
-    // VIP Activation Code Verification Logic
+    // VIP Activation Code Verification
     function verifyCode() {
       const code = document.getElementById('activationCodeInput').value.trim();
       if (code === "VIMLESH199" || code === "RAO2026" || code.length > 5) {
         isVIPActive = true;
-        alert("🎉 Congratulations! Prime VIP Activated Successfully. All 10 PRO video tools and background changer are now fully unlocked!");
         
         for(let i=1; i<=10; i++) {
           const badge = document.getElementById('badge' + i);
@@ -436,21 +483,68 @@
       }
     }
 
-    function checkVIPAccess(featureName) {
+    // Open Real Tool Controls Directly (NO Popup Alerts)
+    function openTool(toolName) {
       if (!isVIPActive) {
-        alert("🔒 " + featureName + " is a PRO feature. Pay ₹99 and get your activation code from Vimlesh Yadav on WhatsApp.");
         openPrimeModal();
-        return false;
+        return;
+      }
+
+      document.getElementById('activeToolTitle').innerText = toolName + " Controls";
+      
+      // Auto-scroll to active video editing panel
+      document.getElementById('activeEditorBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Real Working Video Trim Loop Engine
+    function updateTrim() {
+      if (!videoPreview.src) return;
+      const start = parseFloat(document.getElementById('trimStart').value);
+      const end = parseFloat(document.getElementById('trimEnd').value);
+
+      document.getElementById('valStart').innerText = start + "s";
+      document.getElementById('valEnd').innerText = end + "s";
+
+      if (videoPreview.currentTime < start || videoPreview.currentTime >= end) {
+        videoPreview.currentTime = start;
+      }
+    }
+
+    // Real Working Video LUT Filter Engine
+    function applyLUT(lutType) {
+      if (!videoPreview.src) return;
+
+      if (lutType === 'teal') {
+        videoPreview.style.filter = "contrast(140%) saturate(160%) hue-rotate(-15deg)";
+      } else if (lutType === 'golden') {
+        videoPreview.style.filter = "sepia(50%) contrast(120%) saturate(140%)";
+      } else if (lutType === 'noir') {
+        videoPreview.style.filter = "grayscale(100%) contrast(160%)";
       } else {
-        alert("✨ " + featureName + " is unlocked and active!");
-        return true;
+        videoPreview.style.filter = "none";
+      }
+    }
+
+    // Real Working Speed Controller
+    function applySpeed(speed) {
+      if (!videoPreview.src) return;
+      videoPreview.playbackRate = speed;
+    }
+
+    // Real Working Caption Overlay
+    function applyVideoCaption() {
+      const text = document.getElementById('videoCaptionInput').value.trim();
+      if (text) {
+        videoTextOverlay.innerText = text;
+        videoTextOverlay.classList.remove('hidden');
+      } else {
+        videoTextOverlay.classList.add('hidden');
       }
     }
 
     // Studio Canvas Background Changer
     function changeBackground(type) {
       if (!isVIPActive) {
-        alert("🔒 Background Changer is a PRO feature. Please get your VIP code from Vimlesh Yadav (₹99).");
         openPrimeModal();
         return;
       }
@@ -467,7 +561,6 @@
     // Auto Text Watermark
     function applyWatermarkText() {
       if (!isVIPActive) {
-        alert("🔒 Auto Text Watermark is a PRO feature. Please get your VIP code from Vimlesh Yadav (₹99).");
         openPrimeModal();
         return;
       }
@@ -478,7 +571,6 @@
     // Speech to Text
     function startVoiceTyping() {
       if (!isVIPActive) {
-        alert("🔒 Voice Typing is a PRO feature. Please get your VIP code from Vimlesh Yadav (₹99).");
         openPrimeModal();
         return;
       }
@@ -489,7 +581,7 @@
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
       recognition.lang = 'en-US';
-      recognition.onstart = () => { alert("🎙️ Listening... Speak your text."); };
+      recognition.onstart = () => {};
       recognition.onresult = (event) => {
         const speechResult = event.results[0][0].transcript;
         document.getElementById('watermarkInput').value = speechResult;
@@ -604,6 +696,16 @@
         videoPreview.src = URL.createObjectURL(file);
         videoPreview.classList.remove('hidden');
         videoPlaceholder.classList.add('hidden');
+
+        videoPreview.addEventListener('loadedmetadata', () => {
+          const dur = Math.floor(videoPreview.duration);
+          document.getElementById('trimStart').max = dur;
+          document.getElementById('trimEnd').max = dur;
+          document.getElementById('trimEnd').value = dur;
+          document.getElementById('valEnd').innerText = dur + "s";
+        });
+
+        videoPreview.addEventListener('timeupdate', updateTrim);
       }
     });
 
