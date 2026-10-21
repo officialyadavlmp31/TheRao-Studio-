@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAO STUDIO - Pro AI Photo & Video Editor Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .glass-card {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-pink-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-4 py-3.5">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-pink-500/30">
+          <i class="fa-solid fa-camera-retro text-sm"></i>
+        </div>
+        <h1 class="text-xl font-black tracking-wider bg-gradient-to-r from-white via-slate-200 to-pink-500 bg-clip-text text-transparent">
+          RAO <span class="text-pink-500">STUDIO</span>
+        </h1>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <button onclick="openPrimeModal()" class="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-extrabold px-3.5 py-2 rounded-xl text-xs shadow-lg shadow-yellow-500/20 flex items-center gap-1.5 animate-pulse">
+          <i class="fa-solid fa-crown"></i> PRIME VIP
+        </button>
+        <button onclick="document.getElementById('mediaInput').click()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold px-4 py-2 rounded-xl text-xs shadow-lg">
+          <i class="fa-solid fa-plus mr-1"></i> Upload Media
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="max-w-5xl mx-auto p-4 w-full space-y-6 pb-20 flex-1">
+    
+    <!-- Mode Switcher (Photo / Video Editor) -->
+    <div class="flex justify-center gap-2 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800 max-w-xs mx-auto">
+      <button onclick="switchMode('photo')" id="photoTabBtn" class="flex-1 py-2 rounded-xl text-xs font-bold bg-pink-600 text-white shadow transition">
+        <i class="fa-solid fa-image mr-1"></i> Photo Studio
+      </button>
+      <button onclick="switchMode('video')" id="videoTabBtn" class="flex-1 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-video mr-1"></i> Video Editor <span class="text-[9px] bg-amber-500 text-slate-950 px-1.5 rounded-full font-black">PRO</span>
+      </button>
+    </div>
+
+    <!-- Preview Box -->
+    <div class="glass-card rounded-3xl p-4 md:p-6 shadow-2xl space-y-6">
+      
+      <div id="bgCanvasWrapper" class="bg-slate-900 rounded-2xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[400px] relative overflow-hidden transition-all duration-300">
+        
+        <div id="uploadPlaceholder" class="text-center space-y-3 py-12 cursor-pointer" onclick="document.getElementById('mediaInput').click()">
+          <div class="w-16 h-16 rounded-2xl bg-slate-800/80 flex items-center justify-center mx-auto text-pink-500 text-2xl shadow-inner">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+          </div>
+          <p class="text-sm text-slate-300 font-medium">Tap to upload Photo or Video</p>
+          <p class="text-xs text-slate-500">Remini HD Clean, Background Blur & Video FX</p>
+        </div>
+
+        <!-- Media Previews -->
+        <div class="relative flex items-center justify-center w-full">
+          <img id="imagePreview" class="hidden max-h-[450px] w-auto object-contain rounded-xl shadow-2xl transition-all duration-75">
+          <video id="videoPreview" controls class="hidden max-h-[450px] w-auto object-contain rounded-xl shadow-2xl"></video>
+          <div id="textOverlay" class="absolute bottom-4 font-black text-white text-lg tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] pointer-events-none hidden"></div>
+        </div>
+
+        <canvas id="photoCanvas" class="hidden"></canvas>
+        <input type="file" id="mediaInput" accept="image/*,video/*" class="hidden">
+      </div>
+
+      <!-- Action Buttons -->
+      <div id="actionControls" class="hidden flex flex-wrap items-center justify-center gap-3">
+        <button onclick="downloadMedia()" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold px-6 py-3 rounded-xl text-xs shadow-lg flex items-center gap-2">
+          <i class="fa-solid fa-download"></i> Download HD Result
+        </button>
+        <button onclick="resetAll()" class="bg-slate-800 hover:bg-slate-700 text-rose-400 font-medium px-4 py-3 rounded-xl text-xs border border-slate-700">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Controls Grid (Photo & Video Tools) -->
+    <div id="toolsPanel" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Photo Studio Tools (Background & Text) -->
+      <div id="photoTools" class="glass-card rounded-3xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+          <span>Background & Watermark Text</span>
+          <i class="fa-solid fa-wand-magic text-pink-500"></i>
+        </h3>
+        
+        <!-- Background Colors -->
+        <div class="space-y-1.5">
+          <label class="text-xs text-slate-400 font-medium block">Studio Background Color:</label>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="setBgColor('#0f172a')" class="w-7 h-7 rounded-full bg-slate-900 border-2 border-slate-700 hover:scale-110 transition"></button>
+            <button onclick="setBgColor('#ffffff')" class="w-7 h-7 rounded-full bg-white border-2 border-slate-400 hover:scale-110 transition"></button>
+            <button onclick="setBgColor('#000000')" class="w-7 h-7 rounded-full bg-black border-2 border-slate-800 hover:scale-110 transition"></button>
+            <button onclick="setBgColor('#facc15')" class="w-7 h-7 rounded-full bg-yellow-400 border-2 border-yellow-600 hover:scale-110 transition"></button>
+            <button onclick="setBgColor('#ef4444')" class="w-7 h-7 rounded-full bg-red-500 border-2 border-red-700 hover:scale-110 transition"></button>
+            <button onclick="setBgColor('#3b82f6')" class="w-7 h-7 rounded-full bg-blue-500 border-2 border-blue-700 hover:scale-110 transition"></button>
+            <button onclick="setBgColor('#10b981')" class="w-7 h-7 rounded-full bg-emerald-500 border-2 border-emerald-700 hover:scale-110 transition"></button>
+            <button onclick="setBgColor('#ec4899')" class="w-7 h-7 rounded-full bg-pink-500 border-2 border-pink-700 hover:scale-110 transition"></button>
+          </div>
+        </div>
+
+        <!-- Add Text -->
+        <div class="space-y-1.5 pt-2">
+          <label class="text-xs text-slate-400 font-medium block">Add Custom Text / Watermark:</label>
+          <div class="flex gap-2">
+            <input type="text" id="watermarkInput" placeholder="e.g. RAO STUDIO" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-pink-500">
+            <button onclick="applyWatermark()" class="bg-pink-600 hover:bg-pink-500 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Apply</button>
+          </div>
+        </div>
+
+        <!-- Sliders -->
+        <div class="space-y-1 pt-2">
+          <div class="flex justify-between text-xs text-slate-400"><span>Brightness</span><span id="valBrightness">100%</span></div>
+          <input type="range" id="brightness" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Contrast</span><span id="valContrast">100%</span></div>
+          <input type="range" id="contrast" min="0" max="200" value="100" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+        </div>
+      </div>
+
+      <!-- Video Studio Tools (Hidden by default until video mode) -->
+      <div id="videoTools" class="hidden glass-card rounded-3xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+          <span>Pro Video Effects & Grading</span>
+          <i class="fa-solid fa-clapperboard text-amber-500"></i>
+        </h3>
+        
+        <div class="space-y-3 pt-2">
+          <label class="text-xs text-slate-400 font-medium block">Video Cinematic Filters:</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="applyVideoFilter('cinematic')" class="bg-slate-900 hover:bg-slate-800 p-3 rounded-xl text-xs font-bold text-amber-400 border border-slate-800">Cinematic Gold</button>
+            <button onclick="applyVideoFilter('cyberpunk')" class="bg-slate-900 hover:bg-slate-800 p-3 rounded-xl text-xs font-bold text-pink-400 border border-slate-800">Cyberpunk Neon</button>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="applyVideoFilter('vintage')" class="bg-slate-900 hover:bg-slate-800 p-3 rounded-xl text-xs font-bold text-purple-400 border border-slate-800">Vintage Retro</button>
+            <button onclick="applyVideoFilter('normal')" class="bg-slate-900 hover:bg-slate-800 p-3 rounded-xl text-xs font-bold text-slate-300 border border-slate-800">Normal Reset</button>
+          </div>
+        </div>
+        <p class="text-[11px] text-amber-400/90 pt-3 bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
+          <i class="fa-solid fa-crown mr-1"></i> Video editing & cinematic grading is powered by RAO STUDIO Prime Engine.
+        </p>
+      </div>
+
+      <!-- Remini AI & Pro Effects -->
+      <div class="glass-card rounded-3xl p-5 space-y-4">
+        <h3 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2">Remini AI Enhancer & Filters</h3>
+        
+        <!-- Remini AI Clean Button -->
+        <button onclick="applyReminiEnhance()" class="w-full bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 hover:opacity-90 text-white font-bold p-3.5 rounded-xl text-xs shadow-xl flex items-center justify-center gap-2 transition">
+          <i class="fa-solid fa-wand-magic-sparkles text-amber-300 text-sm"></i> Remini AI Clear & HD (Super Clean)
+        </button>
+
+        <div class="space-y-1 pt-1">
+          <div class="flex justify-between text-xs text-slate-400"><span>Background Blur</span><span id="valBlur">0px</span></div>
+          <input type="range" id="blur" min="0" max="20" value="0" class="w-full accent-pink-500 h-1.5 bg-slate-800 rounded-lg">
+        </div>
+
+        <div class="space-y-2 pt-2">
+          <span class="text-xs text-slate-400 font-medium">Quick Effects</span>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="applyFilter('vivid')" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-bold text-pink-400 border border-slate-700">Vivid Glow</button>
+            <button onclick="applyFilter('bw')" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs font-bold text-slate-300 border border-slate-700">Black & White</button>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-1">
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="rotateImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs text-slate-300 border border-slate-700">Rotate 90°</button>
+            <button onclick="flipImage()" class="bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl text-xs text-slate-300 border border-slate-700">Flip Side</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Prime Membership Modal -->
+  <div id="primeModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card bg-slate-900 border border-yellow-500/40 rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl relative">
+      <button onclick="closePrimeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      <div class="text-center space-y-2">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center mx-auto text-slate-950 text-xl font-bold shadow-lg">
+          <i class="fa-solid fa-crown"></i>
+        </div>
+        <h2 class="text-lg font-black text-white">RAO STUDIO PRIME VIP</h2>
+        <p class="text-xs text-slate-300">Unlock Unlimited Remini AI HD Enhancer, Pro Video Grading, and 4K Downloads!</p>
+      </div>
+
+      <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs text-slate-300">
+        <div class="flex justify-between items-center py-1 border-b border-slate-800">
+          <span>👑 Lifetime Pro Access</span>
+          <span class="font-bold text-yellow-400">₹199 Only</span>
+        </div>
+        <ul class="space-y-1.5 text-[11px] text-slate-400 pt-1">
+          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Unlimited Remini AI Face & Photo Cleaning</li>
+          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Pro Video Editor & Cinematic Filters</li>
+          <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Ad-free HD Studio Experience</li>
+        </ul>
+      </div>
+
+      <button onclick="alert('Prime Membership activation successful! Enjoy all pro features.')" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-black py-3 rounded-xl text-xs shadow-lg uppercase tracking-wider">
+        Upgrade to Prime Now
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer with Contact Info -->
+  <footer class="mt-auto border-t border-slate-900 bg-slate-950/80 py-6 px-4 text-center text-xs text-slate-400 space-y-1">
+    <p class="font-bold text-slate-300">RAO STUDIO - All Rights Reserved</p>
+    <p>Contact: <span class="text-pink-400 font-medium">Vimlesh Yadav</span> | Uttar Pradesh, India</p>
+  </footer>
+
+  <script>
+    const mediaInput = document.getElementById('mediaInput');
+    const imagePreview = document.getElementById('imagePreview');
+    const videoPreview = document.getElementById('videoPreview');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const actionControls = document.getElementById('actionControls');
+    const toolsPanel = document.getElementById('toolsPanel');
+    const photoTools = document.getElementById('photoTools');
+    const videoTools = document.getElementById('videoTools');
+    const photoTabBtn = document.getElementById('photoTabBtn');
+    const videoTabBtn = document.getElementById('videoTabBtn');
+    const bgCanvasWrapper = document.getElementById('bgCanvasWrapper');
+    const textOverlay = document.getElementById('textOverlay');
+    const watermarkInput = document.getElementById('watermarkInput');
+    const canvas = document.getElementById('photoCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const brightness = document.getElementById('brightness');
+    const contrast = document.getElementById('contrast');
+    const saturate = document.getElementById('saturate');
+    const blur = document.getElementById('blur');
+
+    let originalImage = new Image();
+    let currentMediaMode = 'photo';
+    let rotation = 0;
+    let flipVal = 1;
+    let currentBgColor = '#0f172a';
+    let customText = '';
+
+    function switchMode(mode) {
+      currentMediaMode = mode;
+      if (mode === 'photo') {
+        photoTabBtn.className = "flex-1 py-2 rounded-xl text-xs font-bold bg-pink-600 text-white shadow transition";
+        videoTabBtn.className = "flex-1 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition";
+        photoTools.classList.remove('hidden');
+        videoTools.classList.add('hidden');
+        if (originalImage.src) {
+          imagePreview.classList.remove('hidden');
+          videoPreview.classList.add('hidden');
+        }
+      } else {
+        videoTabBtn.className = "flex-1 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow transition";
+        photoTabBtn.className = "flex-1 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition";
+        videoTools.classList.remove('hidden');
+        photoTools.classList.add('hidden');
+        imagePreview.classList.add('hidden');
+        if(videoPreview.src) videoPreview.classList.remove('hidden');
+      }
+    }
+
+    mediaInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        if (file.type.startsWith('video/')) {
+          switchMode('video');
+          videoPreview.src = url;
+          videoPreview.classList.remove('hidden');
+          imagePreview.classList.add('hidden');
+          uploadPlaceholder.classList.add('hidden');
+          actionControls.classList.remove('hidden');
+          toolsPanel.classList.remove('hidden');
+        } else {
+          switchMode('photo');
+          originalImage.src = url;
+          originalImage.onload = () => {
+            imagePreview.src = originalImage.src;
+            imagePreview.classList.remove('hidden');
+            videoPreview.classList.add('hidden');
+            uploadPlaceholder.classList.add('hidden');
+            actionControls.classList.remove('hidden');
+            toolsPanel.classList.remove('hidden');
+            resetAll();
+          };
+        }
+      }
+    });
+
+    function setBgColor(color) {
+      currentBgColor = color;
+      bgCanvasWrapper.style.backgroundColor = color;
+    }
+
+    function applyWatermark() {
+      customText = watermarkInput.value.trim();
+      if (customText) {
+        textOverlay.innerText = customText;
+        textOverlay.classList.remove('hidden');
+      } else {
+        textOverlay.classList.add('hidden');
+      }
+    }
+
+    function updateLivePreview() {
+      if (!originalImage.src) return;
+      const b = brightness.value;
+      const c = contrast.value;
+      const s = saturate.value;
+      const bl = blur.value;
+
+      document.getElementById('valBrightness').innerText = b + '%';
+      document.getElementById('valContrast').innerText = c + '%';
+      document.getElementById('valBlur').innerText = bl + 'px';
+
+      imagePreview.style.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%) blur(${bl}px)`;
+      imagePreview.style.transform = `rotate(${rotation}deg) scaleX(${flipVal})`;
+    }
+
+    [brightness, contrast, saturate, blur].forEach(slider => slider.addEventListener('input', updateLivePreview));
+
+    function rotateImage() {
+      rotation = (rotation + 90) % 360;
+      updateLivePreview();
+    }
+
+    function flipImage() {
+      flipVal *= -1;
+      updateLivePreview();
+    }
+
+    function applyFilter(type) {
+      if (type === 'vivid') {
+        brightness.value = 115; contrast.value = 130; saturate.value = 160; blur.value = 0;
+      } else if (type === 'bw') {
+        brightness.value = 100; contrast.value = 120; saturate.value = 0; blur.value = 0;
+      }
+      updateLivePreview();
+    }
+
+    // Remini AI Super Clean Effect
+    function applyReminiEnhance() {
+      brightness.value = 110;
+      contrast.value = 145;
+      saturate.value = 150;
+      blur.value = 0;
+      updateLivePreview();
+    }
+
+    function applyVideoFilter(type) {
+      if(type === 'cinematic') {
+        videoPreview.style.filter = 'contrast(130%) brightness(95%) sepia(30%)';
+      } else if(type === 'cyberpunk') {
+        videoPreview.style.filter = 'contrast(140%) saturate(180%) hue-rotate(300deg)';
+      } else if(type === 'vintage') {
+        videoPreview.style.filter = 'sepia(60%) contrast(110%)';
+      } else {
+        videoPreview.style.filter = 'none';
+      }
+    }
+
+    function openPrimeModal() {
+      document.getElementById('primeModal').classList.remove('hidden');
+    }
+
+    function closePrimeModal() {
+      document.getElementById('primeModal').classList.add('hidden');
+    }
+
+    function resetAll() {
+      brightness.value = 100; contrast.value = 100; saturate.value = 100; blur.value = 0;
+      rotation = 0; flipVal = 1;
+      setBgColor('#0f172a');
+      watermarkInput.value = '';
+      customText = '';
+      textOverlay.classList.add('hidden');
+      updateLivePreview();
+    }
+
+    function downloadMedia() {
+      if (currentMediaMode === 'video') {
+        alert('Your Pro Video is ready! Click download on your device media player or upgrade to Prime for direct export.');
+        return;
+      }
+      if (!originalImage.src) return;
+
+      canvas.width = originalImage.naturalWidth || originalImage.width;
+      canvas.height = originalImage.naturalHeight || originalImage.height;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = currentBgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate((rotation * Math.PI) / 180);
+      ctx.scale(flipVal, 1);
+
+      ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturate.value}%) blur(${blur.value}px)`;
+      ctx.drawImage(originalImage, -originalImage.width / 2, -originalImage.height / 2);
+      ctx.restore();
+
+      if (customText) {
+        ctx.save();
+        ctx.font = 'bold 36px sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        ctx.shadowBlur = 8;
+        ctx.fillText(customText, canvas.width / 2, canvas.height - 40);
+        ctx.restore();
+      }
+
+      try {
+        const dataURL = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'rao-studio-remini-hd.png';
+        link.href = dataURL;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (err) {
+        alert('Download failed. Please open in Chrome browser.');
+      }
+    }
+  </script>
+</body>
+</html>
